@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
-import { useId } from "react";
+import React, { useRef } from "react";
+import { Note } from "@/app/models/Note";
 
 const Noteform = ({ onAddNote }) => {
+  const nextId = useRef(1);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const Id = useId();
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
@@ -13,14 +14,17 @@ const Noteform = ({ onAddNote }) => {
     if (title == "" || content == "") {
       alert("Please, fill out the information");
     } else {
-      onAddNote({
-        id: Id,
+      const newNote: Note = {
+        id: nextId.current,
         title: title,
         content: content,
         created: new Date(),
-      });
+      };
+
+      onAddNote(newNote);
       console.log(title);
       console.log(content);
+      nextId.current += 1;
     }
   }
 

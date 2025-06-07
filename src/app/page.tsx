@@ -26,36 +26,28 @@ export default function Home() {
                 My Notes
               </h1>
 
-              <div className="grid lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]">
+              <div className="grid lg:grid-cols-2 gap-7 h-[calc(100vh-200px)]">
                 {/* Left Half - Create Notes */}
-
-                <Noteform onAddNote={addNoteForm}></Noteform>
+                <Noteform onAddNote={addNoteForm} />
 
                 {/* Right Half - Display Notes */}
-
                 {notes.length >= 1 ? (
-                  <List notes={notes}></List>
+                  <div className="overflow-y-auto h-full pr-2">
+                    <div className="grid grid-cols-2 gap-4">
+                      <List notes={notes} />
+                    </div>
+                  </div>
                 ) : (
-                  <>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-gray-800"></h2>
-                      </div>
-
-                      <div className="overflow-y-auto h-full pr-2 space-y-4">
-                        <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-48 flex items-center justify-center">
-                          <div className="text-center">
-                            <p className="text-gray-500 text-lg">
-                              No notes yet
-                            </p>
-                            <p className="text-gray-400 text-sm mt-2">
-                              Create your first note using the form on the left
-                            </p>
-                          </div>
-                        </div>
+                  <div className="space-y-4 overflow-y-auto h-full pr-2">
+                    <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-48 flex items-center justify-center">
+                      <div className="text-center">
+                        <p className="text-gray-500 text-lg">No notes yet</p>
+                        <p className="text-gray-400 text-sm mt-2">
+                          Create your first note using the form on the left
+                        </p>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
