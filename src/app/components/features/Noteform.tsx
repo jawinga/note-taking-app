@@ -1,9 +1,27 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Note } from "@/app/models/Note";
 
 const Noteform = ({ onAddNote }) => {
   const nextId = useRef(1);
+  const [inputValue, setInputValue] = useState({
+    title: "",
+    content: "",
+  });
+
+  function handleReset() {
+    setInputValue({
+      title: "",
+      content: "",
+    });
+  }
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setInputValue((prev) => ({ ...prev, [name]: value }));
+  };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,6 +43,7 @@ const Noteform = ({ onAddNote }) => {
       console.log(title);
       console.log(content);
       nextId.current += 1;
+      handleReset();
     }
   }
 
@@ -50,6 +69,8 @@ const Noteform = ({ onAddNote }) => {
                 Title
               </label>
               <input
+                onChange={handleChange}
+                value={inputValue.title}
                 id="title"
                 type="text"
                 placeholder="Enter note title..."
@@ -66,8 +87,10 @@ const Noteform = ({ onAddNote }) => {
               </label>
               <textarea
                 id="content"
+                value={inputValue.content}
                 placeholder="Write your note here..."
                 name="content"
+                onChange={handleChange}
                 className="w-full px-3 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
               />
             </div>

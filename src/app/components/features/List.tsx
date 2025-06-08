@@ -12,11 +12,38 @@ import {
 
 interface NoteProps {
   notes: Note[];
+  setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
 }
 
-const List = ({ notes }: NoteProps) => {
+const List = ({ notes, setNotes }: NoteProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+
+  const changeInputValue = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+
+    setSelectedNote((prev) => {
+      if (!prev) return prev; // si es null, no hacemos nada
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const saveNote = () => {
+    if (!selectedNote) return;
+
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === selectedNote.id ? selectedNote : note
+      )
+    );
+
+    setIsOpen(false);
+  };
 
   function mesString(mes: number): string {
     switch (mes) {
@@ -71,16 +98,25 @@ const List = ({ notes }: NoteProps) => {
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel className="max-w-lg space-y-4 border bg-white p-12">
               <DialogTitle className="font-bold">
-                {selectedNote.title}
+                <input
+                  type="text"
+                  name="title"
+                  value={selectedNote.title}
+                  onChange={changeInputValue}
+                ></input>
               </DialogTitle>
               <Description>
                 {`${selectedNote.created.getDay().toString()}-${mesString(
                   selectedNote.created.getMonth() + 1
                 )}`}
               </Description>
-              <p>{selectedNote.content}</p>
+              <textarea
+                name="content"
+                value={selectedNote.content}
+                onChange={changeInputValue}
+              ></textarea>
               <div className="flex gap-4">
-                <button onClick={() => setIsOpen(false)}>Save</button>
+                <button onClick={saveNote}>Save</button>
               </div>
             </DialogPanel>
           </div>

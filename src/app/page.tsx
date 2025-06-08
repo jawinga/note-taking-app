@@ -34,7 +34,7 @@ export default function Home() {
                 {notes.length >= 1 ? (
                   <div className="overflow-y-auto h-full pr-2">
                     <div className="grid grid-cols-2 gap-4">
-                      <List notes={notes} />
+                      <List notes={notes} setNotes={setNotes} />
                     </div>
                   </div>
                 ) : (
