@@ -1,13 +1,24 @@
 "use client";
 import React from "react";
 import { Note } from "@/app/models/Note";
+import { Calendar, FileText } from "lucide-react";
+import Delete from "../ui/buttons/Delete";
 
 interface NoteProps {
   note: Note;
   onOpen: () => void;
+  selectedNoteDelete: Note | null;
+  setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
+  deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
 
-const Card = ({ note, onOpen }: NoteProps) => {
+const Card = ({
+  note,
+  onOpen,
+  selectedNoteDelete,
+  setSelectedNoteDelete,
+  deleteNote,
+}: NoteProps) => {
   function mesString(mes: number): string {
     switch (mes) {
       case 1:
@@ -41,43 +52,61 @@ const Card = ({ note, onOpen }: NoteProps) => {
 
   note.created.getMonth().toString();
 
+  const isSelected = selectedNoteDelete?.id === note.id;
+
+  if (isSelected) {
+    console.log("Note selected. Ready for deletion");
+    console.log(selectedNoteDelete.id + " " + note.id);
+  }
+
   return (
-    <>
-      <div
-        onClick={onOpen}
-        className="cursor-pointer w-64 h-64 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col"
-      >
-        {/* Title */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
-          {note.title}
-        </h3>
-
-        {/* Content */}
-        <div className="flex-1 mb-4">
-          <p className="text-sm text-gray-600 line-clamp-6">{note.content}</p>
+    <div
+      onClick={onOpen}
+      className="group cursor-pointer w-72 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-200 p-6 flex flex-col h-80"
+    >
+      {/* Header */}
+      <div className="flex items-start gap-3 mb-4">
+        <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
+          <FileText className="w-5 h-5 text-blue-600" />
         </div>
-
-        {/* Date */}
-        <div className="flex items-center text-xs text-gray-500 mt-auto">
-          <svg
-            className="w-3 h-3 mr-1"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          {`${note.created.getDay().toString()}-${mesString(
-            note.created.getMonth() + 1
-          )}`}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-900 transition-colors">
+            {note.title || "Untitled Note"}
+          </h3>
         </div>
       </div>
-    </>
+
+      {/* Content */}
+      <div className="flex-1 mb-4">
+        <p className="text-sm text-gray-600 line-clamp-6 leading-relaxed">
+          {note.content || "No content available..."}
+        </p>
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <Calendar className="w-3.5 h-3.5" />
+          <span className="font-medium">
+            {`${note.created.getDate()}-${mesString(
+              note.created.getMonth() + 1
+            )}-${note.created.getFullYear()}`}
+          </span>
+        </div>
+        <div className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="p-1 hover:bg-gray-500 hover:rounded-lg hover:text-white transition">
+          <Delete
+            selectedNoteDelete={selectedNoteDelete}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedNoteDelete(note);
+            }}
+            deleteNote={deleteNote}
+            setSelectedNoteDelete={setSelectedNoteDelete}
+          ></Delete>
+        </div>
+      </div>
+    </div>
   );
 };
 

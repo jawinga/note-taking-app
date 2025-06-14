@@ -7,9 +7,15 @@ import List from "./components/features/List";
 
 export default function Home() {
   const [notes, setNotes] = React.useState<Note[]>([]);
+  const [selectedNoteDelete, setSelectedNoteDelete] =
+    React.useState<Note | null>(null);
 
   function addNoteForm(note: Note) {
     setNotes((prev) => [...prev, note]);
+  }
+
+  function deleteNote(note: Note) {
+    setNotes((prev) => prev.filter((n) => n.id !== note.id));
   }
 
   {
@@ -34,7 +40,13 @@ export default function Home() {
                 {notes.length >= 1 ? (
                   <div className="overflow-y-auto h-full pr-2">
                     <div className="grid grid-cols-2 gap-4">
-                      <List notes={notes} setNotes={setNotes} />
+                      <List
+                        notes={notes}
+                        setNotes={setNotes}
+                        selectedNoteDelete={selectedNoteDelete}
+                        setSelectedNoteDelete={setSelectedNoteDelete}
+                        deleteNote={deleteNote}
+                      />
                     </div>
                   </div>
                 ) : (
