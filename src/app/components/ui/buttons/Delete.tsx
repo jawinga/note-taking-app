@@ -7,15 +7,10 @@ interface deleteProps {
   selectedNoteDelete: Note | null;
   setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
   deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
-  onClick: (e: any) => void;
+  onClick: (e) => void;
 }
 
-const Delete = ({
-  selectedNoteDelete,
-  setSelectedNoteDelete,
-  deleteNote,
-  onClick,
-}: deleteProps) => {
+const Delete = ({ selectedNoteDelete, deleteNote, onClick }: deleteProps) => {
   const [openModal, setOpenModal] = React.useState(false);
 
   return (

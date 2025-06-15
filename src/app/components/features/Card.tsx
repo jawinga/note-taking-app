@@ -3,6 +3,8 @@ import React from "react";
 import { Note } from "@/app/models/Note";
 import { Calendar, FileText } from "lucide-react";
 import Delete from "../ui/buttons/Delete";
+import { Heart } from "lucide-react";
+import Fav from "../ui/buttons/Fav";
 
 interface NoteProps {
   note: Note;
@@ -74,6 +76,7 @@ const Card = ({
             {note.title || "Untitled Note"}
           </h3>
         </div>
+        <Fav></Fav>
       </div>
 
       {/* Content */}
