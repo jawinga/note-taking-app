@@ -3,7 +3,6 @@ import React from "react";
 import { Note } from "@/app/models/Note";
 import { Calendar, FileText } from "lucide-react";
 import Delete from "../ui/buttons/Delete";
-import { Heart } from "lucide-react";
 import Fav from "../ui/buttons/Fav";
 
 interface NoteProps {
@@ -76,7 +75,7 @@ const Card = ({
             {note.title || "Untitled Note"}
           </h3>
         </div>
-        <Fav></Fav>
+        <Fav id={note.id}></Fav>
       </div>
 
       {/* Content */}
@@ -98,15 +97,7 @@ const Card = ({
         </div>
         <div className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
         <div className="p-1 hover:bg-gray-500 hover:rounded-lg hover:text-white transition">
-          <Delete
-            selectedNoteDelete={selectedNoteDelete}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedNoteDelete(note);
-            }}
-            deleteNote={deleteNote}
-            setSelectedNoteDelete={setSelectedNoteDelete}
-          ></Delete>
+          <Delete note={note}></Delete>
         </div>
       </div>
     </div>

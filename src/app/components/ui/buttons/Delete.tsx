@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Trash2 } from "lucide-react";
 import { Note } from "@/app/models/Note";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { NotesContext } from "@/app/context/NotesContext";
 
-interface deleteProps {
-  selectedNoteDelete: Note | null;
-  setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
-  deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
-  onClick: (e) => void;
+interface DeleteProps {
+  note: Note;
 }
 
-const Delete = ({ selectedNoteDelete, deleteNote, onClick }: deleteProps) => {
+const Delete = ({ note }: DeleteProps) => {
   const [openModal, setOpenModal] = React.useState(false);
+  const { deleteNote } = useContext(NotesContext)!;
 
   return (
     <>
@@ -20,8 +19,7 @@ const Delete = ({ selectedNoteDelete, deleteNote, onClick }: deleteProps) => {
           className="text-blue-900 w-5 h-5 hover:text-white transition"
           onClick={(e) => {
             e.stopPropagation();
-            onClick(e);
-            setOpenModal((prev) => !prev);
+            setOpenModal(true);
           }}
         />
       </button>
@@ -32,16 +30,13 @@ const Delete = ({ selectedNoteDelete, deleteNote, onClick }: deleteProps) => {
           onClose={() => setOpenModal(false)}
           className="relative z-50"
         >
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/30 backdrop-blur-sm"
             aria-hidden="true"
           />
 
-          {/* Dialog panel container */}
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel className="mx-auto max-w-md w-full bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
-              {/* Header */}
               <div className="px-6 py-4 border-b border-gray-200 bg-red-50">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-red-100 rounded-lg">
@@ -70,7 +65,6 @@ const Delete = ({ selectedNoteDelete, deleteNote, onClick }: deleteProps) => {
                 </div>
               </div>
 
-              {/* Content */}
               <div className="p-6">
                 <p className="text-gray-700 mb-2">
                   Are you sure you want to delete this note?
@@ -80,17 +74,20 @@ const Delete = ({ selectedNoteDelete, deleteNote, onClick }: deleteProps) => {
                 </p>
               </div>
 
-              {/* Footer */}
               <div className="flex items-center justify-end gap-3 px-6 py-4 bg-gray-50 border-t border-gray-200">
                 <button
                   onClick={() => setOpenModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={() => deleteNote(selectedNoteDelete)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                  onClick={() => {
+                    console.log("DELETING:", note.id);
+                    deleteNote(note);
+                    setOpenModal(false);
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700"
                 >
                   <svg
                     className="w-4 h-4"

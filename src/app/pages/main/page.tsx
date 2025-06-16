@@ -1,22 +1,25 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Noteform from "../../components/features/Noteform";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import { Note } from "../../models/Note";
 import List from "../../components/features/List";
+import { NotesContext } from "@/app/context/NotesContext";
 
 export default function Home() {
-  const [notes, setNotes] = React.useState<Note[]>([]);
-  const [selectedNoteDelete, setSelectedNoteDelete] =
-    React.useState<Note | null>(null);
-  const isFirstRender = React.useRef(true);
+  const notesCtx = useContext(NotesContext);
+
+  const {
+    notes,
+    setNotes,
+    addNote,
+    deleteNote,
+    selectedNoteDelete,
+    setSelectedNoteDelete,
+  } = notesCtx!;
 
   function addNoteForm(note: Note) {
     setNotes((prev) => [...prev, note]);
-  }
-
-  function deleteNote(note: Note) {
-    setNotes((prev) => prev.filter((n) => n.id !== note.id));
   }
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React from "react";
 import { Search, Bell, User } from "lucide-react";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -15,18 +16,18 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:block ml-10">
               <div className="flex items-baseline space-x-4">
-                <a
-                  href="#"
+                <Link
+                  href="../pages/main"
                   className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   All Notes
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  href="../pages/favourites"
                   className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Favorites
-                </a>
+                </Link>
                 <a
                   href="#"
                   className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"

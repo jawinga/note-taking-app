@@ -34,7 +34,7 @@ const Noteform = ({ onAddNote }) => {
       alert("Please, fill out the information");
     } else {
       const newNote: Note = {
-        id: nextId.current,
+        id: (nextId.current += 1),
         title: title,
         content: content,
         created: new Date(),

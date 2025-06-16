@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Heart } from "lucide-react";
+import { NotesContext } from "@/app/context/NotesContext";
 
-const Fav = () => {
-  const [favourite, setFavourite] = React.useState(false);
+const Fav = ({ id }: { id: number }) => {
+  const notesCtx = useContext(NotesContext);
+  if (!notesCtx) return null;
+  const { notes, toggleFavourite } = notesCtx!;
 
-  function changeFav(e) {
+  const note = notes.find((n) => n.id === id);
+
+  function changeFav(e: React.MouseEvent) {
     e.stopPropagation();
-    setFavourite((favourite) => !favourite);
+    toggleFavourite(id);
   }
 
   return (
     <button onClick={changeFav}>
       <Heart
-        className={favourite ? "text-blue-700" : "text-blue-700"}
-        fill={favourite ? "#1D4ED8" : "none"}
+        className={note?.favourite ? "text-blue-700" : "text-blue-700"}
+        fill={note?.favourite ? "#1D4ED8" : "none"}
       />
     </button>
   );
