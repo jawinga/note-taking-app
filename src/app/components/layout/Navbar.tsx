@@ -1,10 +1,17 @@
 import React from "react";
 import { Search, Bell, User } from "lucide-react";
 import Link from "next/link";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white border-b border-gray-200 shadow-sm">
+    <nav className="bg-white border-b border-gray-200 shadow-sm h-25 flex items-center justify-center gap-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
@@ -67,14 +74,22 @@ const Navbar = () => {
               </button>
 
               {/* Profile dropdown */}
-              <div className="relative">
-                <button className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                  <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
-                    <User className="h-4 w-4 text-white" />
-                  </div>
-                </button>
-
-                {/* Profile Dropdown Menu */}
+              <div className="flex flex-row gap-6 mr-6 ml-6">
+                <SignedOut>
+                  <SignInButton>
+                    <button className=" border-b-blue-600 shadow-md pl-3 pr-3 pt-2 pb-2 bg-blue-700 rounded-lg">
+                      Sign in
+                    </button>
+                  </SignInButton>
+                  <SignUpButton>
+                    <button className="border border-b-blue-600 shadow-md pl-5 pr-5 pt-2 pb-2 rounded-lg text-blue-700 border-solid border-blue-700">
+                      Sign up
+                    </button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
               </div>
             </div>
           </div>
