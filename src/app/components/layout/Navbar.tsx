@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Bell, User } from "lucide-react";
+import { Search, Bell } from "lucide-react";
 import Link from "next/link";
 import {
   SignInButton,
