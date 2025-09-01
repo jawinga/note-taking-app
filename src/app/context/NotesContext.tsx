@@ -3,7 +3,7 @@ import React from "react";
 import { createContext } from "react";
 import { Note } from "../models/Note";
 
-interface NotesContext {
+interface NotesContextType {
   notes: Note[];
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
   addNote: (note: Note) => void;
@@ -13,7 +13,7 @@ interface NotesContext {
   deleteNote: (note: Note) => void;
 }
 
-export const NotesContext = createContext<NotesContext | null>(null);
+export const NotesContext = createContext<NotesContextType | null>(null);
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
   const [notes, setNotes] = React.useState<Note[]>([]);
@@ -25,19 +25,14 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
   }
 
   function deleteNote(note: Note) {
-    console.log("DELETING:", note.id); // Debug line
+    console.log("DELETING:", note.id);
     setNotes((prev) => prev.filter((n) => n.id !== note.id));
   }
 
   function toggleFavourite(id: number) {
-    const updatedNotes = notes.map((n) => {
-      if (n.id === id) {
-        return { ...n, favourite: !n.favourite };
-      } else {
-        return n;
-      }
-    });
-    setNotes(updatedNotes);
+    setNotes((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, favourite: !n.favourite } : n))
+    );
   }
 
   const valueObject = {

@@ -1,19 +1,41 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Note } from "@/app/models/Note";
-import { Plus, FileText, Type } from "lucide-react";
+import { Plus, FileText, Type, Tag } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const colours = [
+  { name: "Red", class: "bg-red-500" },
+  { name: "Orange", class: "bg-orange-500" },
+  { name: "Yellow", class: "bg-yellow-400" },
+  { name: "Green", class: "bg-green-500" },
+  { name: "Teal", class: "bg-teal-500" },
+  { name: "Blue", class: "bg-blue-500" },
+  { name: "Indigo", class: "bg-indigo-500" },
+  { name: "Purple", class: "bg-purple-500" },
+  { name: "Pink", class: "bg-pink-500" },
+  { name: "Gray", class: "bg-gray-500" },
+];
 
 const Noteform = ({ onAddNote }) => {
   const nextId = useRef(0);
   const [inputValue, setInputValue] = useState({
     title: "",
     content: "",
+    tags: [],
   });
 
   function handleReset() {
     setInputValue({
       title: "",
       content: "",
+      tags: [],
     });
   }
 
@@ -29,20 +51,26 @@ const Noteform = ({ onAddNote }) => {
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
+    const tags = formData.getAll("tags").map(String);
 
     if (title == "" || content == "") {
       alert("Please, fill out the information");
     } else {
       const newNote: Note = {
-        id: (nextId.current += 1),
+        id: nextId.current++,
         title: title,
         content: content,
+        tags: tags,
         created: new Date(),
       };
 
       onAddNote(newNote);
       console.log(title);
       console.log(content);
+      tags.forEach((tag: string) => {
+        console.log(tag);
+      });
+
       nextId.current += 1;
       handleReset();
     }
@@ -88,6 +116,42 @@ const Noteform = ({ onAddNote }) => {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400"
               name="title"
             />
+          </div>
+
+          {/*tags*/}
+
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Tag className="w-4 h-4 text-gray-500"></Tag>
+              <label
+                htmlFor="tags"
+                className="block text-sm font-semibold text-gray-800"
+              >
+                Tags
+              </label>
+            </div>
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              placeholder="Add 1 word tags"
+              className="w-50 px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400"
+            ></input>
+            <Select>
+              <SelectTrigger className="w-60">
+                <SelectValue placeholder="Select colour" />
+              </SelectTrigger>
+              <SelectContent>
+                {colours.map((c) => (
+                  <SelectItem key={c.name} value={c.name.toLowerCase()}>
+                    <div className="flex items-center gap-2">
+                      <span className={`w-3 h-3 rounded-full ${c.class}`} />
+                      {c.name}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>{" "}
+            </Select>
           </div>
 
           {/* Content Field */}

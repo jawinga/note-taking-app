@@ -17,20 +17,22 @@ const ListFavs = () => {
 
   return (
     <>
-      {notes
-        .filter((n) => n.favourite)
-        .map((n) => {
-          return (
-            <Card
-              key={n.id}
-              note={n}
-              onOpen={() => {}}
-              selectedNoteDelete={selectedNoteDelete}
-              setSelectedNoteDelete={setSelectedNoteDelete}
-              deleteNote={deleteNote}
-            />
-          );
-        })}
+      <>
+        {notes.length === 0
+          ? "Empty"
+          : notes
+              .filter((n) => n.favourite)
+              .map((n) => (
+                <Card
+                  key={n.id}
+                  note={n}
+                  onOpen={() => {}}
+                  selectedNoteDelete={selectedNoteDelete}
+                  setSelectedNoteDelete={setSelectedNoteDelete}
+                  deleteNote={deleteNote}
+                />
+              ))}
+      </>
     </>
   );
 };
