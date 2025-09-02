@@ -25,6 +25,22 @@ const colours = [
 
 const Noteform = ({ onAddNote }) => {
   const nextId = useRef(0);
+
+  const [tags, setTags] = useState<{ colour: string; tag: string }[]>([]);
+  const showTags = tags.map((t, i) => (
+    <li
+      key={i}
+      className={`px-3 py-1 rounded-full text-sm text-white mt-2 mb-2 ${
+        colours.find((c) => c.name.toLowerCase() === t.colour)?.class
+      }`}
+    >
+      {t.tag}
+    </li>
+  ));
+
+  const [tagInput, setTagInput] = useState("");
+  const [tagColour, setTagColour] = useState("");
+
   const [inputValue, setInputValue] = useState({
     title: "",
     content: "",
@@ -37,6 +53,17 @@ const Noteform = ({ onAddNote }) => {
       content: "",
       tags: [],
     });
+  }
+
+  function addTags(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (!tagColour || !tagInput) {
+      return;
+    } else {
+      setTags((prev) => [...prev, { colour: tagColour, tag: tagInput }]);
+    }
+    setTagColour("");
+    setTagInput("");
   }
 
   const handleChange = (
@@ -134,14 +161,22 @@ const Noteform = ({ onAddNote }) => {
               type="text"
               id="tags"
               name="tags"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
               placeholder="Add 1 word tags"
-              className="w-50 px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400"
+              className="w-50 px-4 py-3 border border-gray-300 rounded-lg sh  adow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400"
             ></input>
-            <Select>
-              <SelectTrigger className="w-60">
+            <button
+              className="rounded-full bg-gradient-to-r from-blue-600 to-blue-700 p-3 ml-3"
+              onClick={addTags}
+            >
+              +
+            </button>
+            <Select onValueChange={(value) => setTagColour(value)}>
+              <SelectTrigger className="w-50 px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400">
                 <SelectValue placeholder="Select colour" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="w-full px-4 py-3 border bg-white border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400">
                 {colours.map((c) => (
                   <SelectItem key={c.name} value={c.name.toLowerCase()}>
                     <div className="flex items-center gap-2">
@@ -152,6 +187,7 @@ const Noteform = ({ onAddNote }) => {
                 ))}
               </SelectContent>{" "}
             </Select>
+            <div>{showTags}</div>
           </div>
 
           {/* Content Field */}
