@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
+import ColourSelect from "./Noteform/ColourSelect";
 import { Note } from "@/app/models/Note";
 import { Plus, FileText, Type, Tag } from "lucide-react";
 import {
@@ -9,37 +10,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { colours } from "@/lib/colours";
 
-const colours = [
-  { name: "Red", class: "bg-red-500" },
-  { name: "Orange", class: "bg-orange-500" },
-  { name: "Yellow", class: "bg-yellow-400" },
-  { name: "Green", class: "bg-green-500" },
-  { name: "Teal", class: "bg-teal-500" },
-  { name: "Blue", class: "bg-blue-500" },
-  { name: "Indigo", class: "bg-indigo-500" },
-  { name: "Purple", class: "bg-purple-500" },
-  { name: "Pink", class: "bg-pink-500" },
-  { name: "Gray", class: "bg-gray-500" },
-];
-
-const Noteform = ({ onAddNote }) => {
+const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const nextId = useRef(0);
 
   const [tags, setTags] = useState<{ colour: string; tag: string }[]>([]);
+  const [tagInput, setTagInput] = useState("");
+  const [tagColour, setTagColour] = useState("");
+
   const showTags = tags.map((t, i) => (
     <li
       key={i}
-      className={`px-3 py-1 rounded-full text-sm text-white mt-2 mb-2 ${
+      className={`px-3 py-1 rounded-full text-sm text-white m-1 w-fit ${
         colours.find((c) => c.name.toLowerCase() === t.colour)?.class
       }`}
     >
       {t.tag}
     </li>
   ));
-
-  const [tagInput, setTagInput] = useState("");
-  const [tagColour, setTagColour] = useState("");
 
   const [inputValue, setInputValue] = useState({
     title: "",
@@ -84,7 +73,7 @@ const Noteform = ({ onAddNote }) => {
       alert("Please, fill out the information");
     } else {
       const newNote: Note = {
-        id: nextId.current++,
+        id: ++nextId.current,
         title: title,
         content: content,
         tags: tags,
@@ -172,22 +161,11 @@ const Noteform = ({ onAddNote }) => {
             >
               +
             </button>
-            <Select onValueChange={(value) => setTagColour(value)}>
-              <SelectTrigger className="w-50 px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400">
-                <SelectValue placeholder="Select colour" />
-              </SelectTrigger>
-              <SelectContent className="w-full px-4 py-3 border bg-white border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400">
-                {colours.map((c) => (
-                  <SelectItem key={c.name} value={c.name.toLowerCase()}>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-3 h-3 rounded-full ${c.class}`} />
-                      {c.name}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>{" "}
-            </Select>
-            <div>{showTags}</div>
+            <ColourSelect
+              value={tagColour}
+              onChange={setTagColour}
+            ></ColourSelect>
+            <div className="flex flex-row">{showTags}</div>
           </div>
 
           {/* Content Field */}
