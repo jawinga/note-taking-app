@@ -4,6 +4,7 @@ import { Note } from "@/app/models/Note";
 import { Calendar, FileText } from "lucide-react";
 import Delete from "../ui/buttons/Delete";
 import Fav from "../ui/buttons/Fav";
+import TagList from "./Noteform/TagList";
 
 interface NoteProps {
   note: Note;

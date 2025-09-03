@@ -15,7 +15,7 @@ type Props = {
 
 const Tag = ({ item, className = "", onRemove }: Props) => {
   return (
-    <li
+    <span
       key={item.id}
       className={`px-3 py-1 rounded-full text-sm text-white m-1 w-fit ${searchColour(
         item.colour
@@ -30,7 +30,7 @@ const Tag = ({ item, className = "", onRemove }: Props) => {
       >
         x
       </button>
-    </li>
+    </span>
   );
 };
 

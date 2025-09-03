@@ -4,7 +4,6 @@ import ColourSelect from "./Noteform/ColourSelect";
 import { Note } from "@/app/models/Note";
 import { Plus, Tag } from "lucide-react";
 import { ContentField } from "./Noteform/ContentField";
-import { colours } from "@/lib/colours";
 import TitleField from "./Noteform/TitleField";
 import TagList from "./Noteform/TagList";
 import { TagItem } from "./Noteform/Tag";
@@ -55,28 +54,37 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     setTagInput("");
   }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setInputValue((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setInputValue((prev) => ({ ...prev, [name]: value }));
+  // };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
-    const tags = formData.getAll("tags").map(String);
 
-    if (title == "" || content == "") {
+    const tagsFromForm: TagItem[] = formData.getAll("tags").map((value) => ({
+      id: crypto.randomUUID(),
+      tag: String(value),
+      colour: "gray",
+    }));
+
+    const trimTitle = title.trim();
+    const trimContent = content.trim();
+
+    if (!trimContent || !trimTitle) {
       alert("Please, fill out the information");
+      return;
     } else {
       const newNote: Note = {
         id: ++nextId.current,
         title: title,
         content: content,
-        tags: tags,
+        tags: tagsFromForm,
         created: new Date(),
       };
 
