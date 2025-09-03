@@ -2,10 +2,11 @@
 import React, { useRef, useState } from "react";
 import ColourSelect from "./Noteform/ColourSelect";
 import { Note } from "@/app/models/Note";
-import { Plus, Type, Tag } from "lucide-react";
+import { Plus, Tag } from "lucide-react";
 import { ContentField } from "./Noteform/ContentField";
 import { colours } from "@/lib/colours";
 import TitleField from "./Noteform/TitleField";
+import TagList from "./Noteform/TagList";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const nextId = useRef(0);
@@ -39,6 +40,11 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
       content: "",
       tags: [],
     });
+  }
+
+  function resetTags(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    setTags([]);
   }
 
   function addTags(e: React.MouseEvent<HTMLButtonElement>) {
@@ -143,7 +149,10 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
               value={tagColour}
               onChange={setTagColour}
             ></ColourSelect>
-            <div className="flex flex-row">{showTags}</div>
+            <TagList tags={tags} className={tagColour}></TagList>
+            <button onClick={resetTags} className="underline text-gray-400">
+              Reset
+            </button>
           </div>
 
           {/* Content Field */}
