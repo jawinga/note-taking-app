@@ -1,7 +1,7 @@
 import React from "react";
 import { colours } from "@/lib/colours";
 
-export type TagItem = { tag: string; colour: string };
+export type TagItem = { id: string; tag: string; colour: string };
 
 const searchColour = (slug: string) =>
   colours.find((c) => c.name.toLowerCase() === slug.toLowerCase())?.class ??
@@ -16,7 +16,7 @@ type Props = {
 const Tag = ({ item, className = "", onRemove }: Props) => {
   return (
     <li
-      key={item.tag}
+      key={item.id}
       className={`px-3 py-1 rounded-full text-sm text-white m-1 w-fit ${searchColour(
         item.colour
       )} ${className}`}

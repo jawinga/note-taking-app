@@ -7,26 +7,20 @@ import { ContentField } from "./Noteform/ContentField";
 import { colours } from "@/lib/colours";
 import TitleField from "./Noteform/TitleField";
 import TagList from "./Noteform/TagList";
+import { TagItem } from "./Noteform/Tag";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const nextId = useRef(0);
 
-  const [tags, setTags] = useState<{ colour: string; tag: string }[]>([]);
+  const [tags, setTags] = useState<TagItem[]>([]);
   const [content, setContent] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tagInput, setTagInput] = useState("");
   const [tagColour, setTagColour] = useState("");
 
-  const showTags = tags.map((t, i) => (
-    <li
-      key={i}
-      className={`px-3 py-1 rounded-full text-sm text-white m-1 w-fit ${
-        colours.find((c) => c.name.toLowerCase() === t.colour)?.class
-      }`}
-    >
-      {t.tag}
-    </li>
-  ));
+  function removeTag(id: string) {
+    setTags((prev) => prev.filter((t) => t.id !== id));
+  }
 
   const [inputValue, setInputValue] = useState({
     title: "",
@@ -52,7 +46,10 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     if (!tagColour || !tagInput) {
       return;
     } else {
-      setTags((prev) => [...prev, { colour: tagColour, tag: tagInput }]);
+      setTags((prev) => [
+        ...prev,
+        { colour: tagColour, tag: tagInput, id: crypto.randomUUID() },
+      ]);
     }
     setTagColour("");
     setTagInput("");
@@ -149,7 +146,11 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
               value={tagColour}
               onChange={setTagColour}
             ></ColourSelect>
-            <TagList tags={tags} className={tagColour}></TagList>
+            <TagList
+              tags={tags}
+              className={tagColour}
+              onRemove={removeTag}
+            ></TagList>
             <button onClick={resetTags} className="underline text-gray-400">
               Reset
             </button>

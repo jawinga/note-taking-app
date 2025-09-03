@@ -6,7 +6,7 @@ type Props = {
   tags: TagItem[];
   className: string;
   gapClassName?: string;
-  onRemove?: (index: number) => void;
+  onRemove?: (id: string) => void;
 };
 
 const TagList = ({
@@ -15,13 +15,15 @@ const TagList = ({
   gapClassName,
   onRemove,
 }: Props) => {
-  const keyFor = (t: TagItem, i: number) => `${t.tag}-${t.colour}-${i}`;
-
   return (
     <ul className={`${className} ${gapClassName}`} role="list">
-      {tags.map((t, i) => (
-        <li key={keyFor(t, i)}>
-          <Tag item={t} onRemove={onRemove ? () => onRemove(i) : undefined} />
+      {tags.map((t) => (
+        <li key={t.id}>
+          <Tag
+            key={t.id}
+            item={t}
+            onRemove={onRemove ? () => onRemove(t.id) : undefined}
+          />
         </li>
       ))}
     </ul>
