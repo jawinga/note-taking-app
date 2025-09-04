@@ -4,7 +4,7 @@ import { Note } from "@/app/models/Note";
 import { Calendar, FileText } from "lucide-react";
 import Delete from "../ui/buttons/Delete";
 import Fav from "../ui/buttons/Fav";
-import TagList from "./Noteform/TagList";
+import { searchColour } from "@/lib/utils";
 
 interface NoteProps {
   note: Note;
@@ -13,6 +13,8 @@ interface NoteProps {
   setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
   deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
+
+const VISIBLE = 4;
 
 const Card = ({ note, onOpen, selectedNoteDelete }: NoteProps) => {
   function mesString(mes1a12: number): string {
@@ -42,6 +44,9 @@ const Card = ({ note, onOpen, selectedNoteDelete }: NoteProps) => {
     console.log(selectedNoteDelete.id + " " + note.id);
   }
 
+  // const visibleTags = note.tags.slice(0, VISIBLE);
+  // const hiddenTags = note?.tags?.length - VISIBLE;
+
   return (
     <div
       onClick={onOpen}
@@ -62,9 +67,52 @@ const Card = ({ note, onOpen, selectedNoteDelete }: NoteProps) => {
 
       {/* Content */}
       <div className="flex-1 mb-4">
-        <p className="text-sm text-gray-600 line-clamp-6 leading-relaxed">
-          {note.content || "No content available..."}
+        <p className="text-sm text-gray-600 line-clamp-5 leading-relaxed">
+          {note.content.length > 30
+            ? `${note.content.slice(0, 30)}...`
+            : note.content || "No content available..."}
         </p>
+      </div>
+
+      {/* Tags */}
+
+      <div className="mb-3">
+        {note.tags.length > 0 && (
+          <div className="mb-3 flex flex-row flex-wrap gap-2">
+            {note.tags.slice(0, 4).map((t) => (
+              <span
+                key={t.id}
+                className={`px-2.5 py-1 rounded-full text-xs font-medium text-white ${searchColour(
+                  t.colour
+                )}`}
+              >
+                {t.tag}
+              </span>
+            ))}
+            {note.tags.length > 4 && (
+              <span className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-700 bg-gray-100 border">
+                +{note.tags.length - 4}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* {note.tags.length > VISIBLE ? (
+          <>
+            <TagList
+              tags={visibleTags}
+              className="flex flex-row flex-wrap gap-2"
+            />
+            <span className="px-2.5 py-1 rounded-full text-xs font-medium text-gray-700 bg-gray-100 border border-gray-200">
+              +{hiddenTags}
+            </span>
+          </>
+        ) : (
+          <TagList
+            tags={note.tags as TagItem[]}
+            className="flex flex-row flex-wrap gap-2"
+          />
+        )} */}
       </div>
 
       {/* Footer */}

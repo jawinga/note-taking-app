@@ -21,18 +21,10 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     setTags((prev) => prev.filter((t) => t.id !== id));
   }
 
-  const [inputValue, setInputValue] = useState({
-    title: "",
-    content: "",
-    tags: [],
-  });
-
   function handleReset() {
-    setInputValue({
-      title: "",
-      content: "",
-      tags: [],
-    });
+    setContent("");
+    setTitle("");
+    setTags([]);
   }
 
   function resetTags(e: React.MouseEvent<HTMLButtonElement>) {
@@ -66,12 +58,11 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
-
-    const tagsFromForm: TagItem[] = formData.getAll("tags").map((value) => ({
-      id: crypto.randomUUID(),
-      tag: String(value),
-      colour: "gray",
-    }));
+    // const tagsFromForm: TagItem[] = formData.getAll("tags").map((value) => ({
+    //   id: crypto.randomUUID(),
+    //   tag: String(value),
+    //   colour: "gray",
+    // }));
 
     const trimTitle = title.trim();
     const trimContent = content.trim();
@@ -82,18 +73,16 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     } else {
       const newNote: Note = {
         id: ++nextId.current,
-        title: title,
-        content: content,
-        tags: tagsFromForm,
+        title: trimTitle,
+        content: trimContent,
+        tags: tags,
         created: new Date(),
       };
 
       onAddNote(newNote);
       console.log(title);
       console.log(content);
-      tags.forEach((tag: string) => {
-        console.log(tag);
-      });
+      console.log(tags);
 
       nextId.current += 1;
       handleReset();

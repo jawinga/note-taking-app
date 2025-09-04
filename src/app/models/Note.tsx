@@ -5,6 +5,6 @@ export type Note = {
   title: string;
   content: string;
   created: Date;
-  favourite: boolean;
+  favourite?: boolean;
   tags: TagItem[];
 };

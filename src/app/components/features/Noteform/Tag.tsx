@@ -1,11 +1,7 @@
 import React from "react";
-import { colours } from "@/lib/colours";
+import { searchColour } from "@/lib/utils";
 
 export type TagItem = { id: string; tag: string; colour: string };
-
-const searchColour = (slug: string) =>
-  colours.find((c) => c.name.toLowerCase() === slug.toLowerCase())?.class ??
-  "bg-gray-500";
 
 type Props = {
   item: TagItem;
