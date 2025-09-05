@@ -14,8 +14,6 @@ interface NoteProps {
   deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
 
-const VISIBLE = 4;
-
 const Card = ({ note, onOpen, selectedNoteDelete }: NoteProps) => {
   function mesString(mes1a12: number): string {
     const names = [

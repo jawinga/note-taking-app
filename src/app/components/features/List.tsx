@@ -5,6 +5,7 @@ import { Note } from "@/app/models/Note";
 import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { X, Calendar, Save } from "lucide-react";
+import Search from "../ui/buttons/Search";
 
 interface NoteProps {
   notes: Note[];
@@ -23,6 +24,7 @@ const List = ({
 }: NoteProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [query, setQuery] = useState("");
 
   const changeInputValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -81,22 +83,41 @@ const List = ({
     }
   }
 
+  const trimmedQuery: string = query.trim().toLowerCase();
+
+  const filteredNotes: Note[] = query
+    ? notes.filter((note) =>
+        (note.title ?? "").toLowerCase().includes(trimmedQuery)
+      )
+    : notes;
+
+  const list = query.trim() !== "" ? filteredNotes : notes;
+
   return (
     <>
-      {notes.map((note) => (
-        <Card
-          selectedNoteDelete={selectedNoteDelete}
-          setSelectedNoteDelete={setSelectedNoteDelete}
-          key={note.id}
-          note={note}
-          deleteNote={deleteNote}
-          onOpen={() => {
-            setSelectedNote(note);
-            setIsOpen(true);
-          }}
-        />
-      ))}
+      <Search
+        value={query}
+        onChange={setQuery}
+        placeholder="Search notes..."
+      ></Search>
 
+      {list.length === 0 ? (
+        <p className="text-sm text-gray-500">No notes found.</p>
+      ) : (
+        list.map((note) => (
+          <Card
+            key={note.id}
+            note={note}
+            selectedNoteDelete={selectedNoteDelete}
+            setSelectedNoteDelete={setSelectedNoteDelete}
+            deleteNote={deleteNote}
+            onOpen={() => {
+              setSelectedNote(note);
+              setIsOpen(true);
+            }}
+          />
+        ))
+      )}
       {selectedNote && (
         <Dialog
           open={isOpen}
