@@ -83,15 +83,18 @@ const List = ({
     }
   }
 
-  const trimmedQuery: string = query.trim().toLowerCase();
+  // const filteredNotes: Note[] = query
+  //   ? notes.filter((note) =>
+  //       (note.title ?? "").toLowerCase().includes(trimmedQuery)
+  //     )
+  //   : notes;
 
-  const filteredNotes: Note[] = query
-    ? notes.filter((note) =>
-        (note.title ?? "").toLowerCase().includes(trimmedQuery)
-      )
-    : notes;
-
-  const list = query.trim() !== "" ? filteredNotes : notes;
+  const trimmedQuery = query.trim().toLowerCase();
+  const filteredNotes = notes.filter((note) =>
+    note.title && trimmedQuery
+      ? note.title.toLowerCase().includes(trimmedQuery)
+      : !trimmedQuery
+  );
 
   return (
     <>
@@ -101,10 +104,10 @@ const List = ({
         placeholder="Search notes..."
       ></Search>
 
-      {list.length === 0 ? (
+      {filteredNotes.length === 0 ? (
         <p className="text-sm text-gray-500">No notes found.</p>
       ) : (
-        list.map((note) => (
+        filteredNotes.map((note) => (
           <Card
             key={note.id}
             note={note}

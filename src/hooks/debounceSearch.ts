@@ -4,8 +4,8 @@ export function useDebounceSearch<T>(value: T, delay = 250) {
   const [debounced, setDebounced] = useState(value);
 
   useEffect(() => {
-    const delayedValue = setTimeout(() => setDebounced(value), delay);
-    return () => clearInterval(delayedValue);
+    const id = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(id);
   }, [value, delay]);
 
   return debounced;
