@@ -94,7 +94,7 @@ const List = ({
   const list = query.trim() !== "" ? filteredNotes : notes;
 
   return (
-    <>
+    <div className="flex flex-column">
       <Search
         value={query}
         onChange={setQuery}
@@ -217,7 +217,7 @@ const List = ({
           </div>
         </Dialog>
       )}
-    </>
+    </div>
   );
 };
 
