@@ -13,25 +13,21 @@ type Props = {
 const Search = ({
   value = "",
   placeholder = "Search notes",
-  className,
+  className = "",
   delay = 300,
   onChange,
 }: Props) => {
   const [rawQuery, setRawQuery] = useState(value);
 
   useEffect(() => {
-    if (query !== undefined) {
-      setRawQuery(value);
-    }
+    setRawQuery(value);
   }, [value]);
-
-  const [query, setQuery] = useState("");
 
   const debouncedQuery = useDebounceSearch(rawQuery, delay);
 
   useEffect(() => {
     console.log("Debounced query is", debouncedQuery);
-    setQuery(debouncedQuery);
+    onChange(debouncedQuery.trim());
   }, [debouncedQuery, onChange]);
 
   return (
