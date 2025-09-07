@@ -94,7 +94,7 @@ const List = ({
   const list = query.trim() !== "" ? filteredNotes : notes;
 
   return (
-    <div className="flex flex-column">
+    <div>
       <Search
         value={query}
         onChange={setQuery}
@@ -104,19 +104,25 @@ const List = ({
       {list.length === 0 ? (
         <p className="text-sm text-gray-500">No notes found.</p>
       ) : (
-        list.map((note) => (
-          <Card
-            key={note.id}
-            note={note}
-            selectedNoteDelete={selectedNoteDelete}
-            setSelectedNoteDelete={setSelectedNoteDelete}
-            deleteNote={deleteNote}
-            onOpen={() => {
-              setSelectedNote(note);
-              setIsOpen(true);
-            }}
-          />
-        ))
+        <div className="flex flex-wrap gap-6">
+          {list.map((note) => (
+            <div
+              key={note.id}
+              className="basis-full sm:basis-[calc(50%-0.75rem)]"
+            >
+              <Card
+                note={note}
+                selectedNoteDelete={selectedNoteDelete}
+                setSelectedNoteDelete={setSelectedNoteDelete}
+                deleteNote={deleteNote}
+                onOpen={() => {
+                  setSelectedNote(note);
+                  setIsOpen(true);
+                }}
+              />
+            </div>
+          ))}
+        </div>
       )}
       {selectedNote && (
         <Dialog

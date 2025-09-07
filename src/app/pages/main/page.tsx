@@ -8,6 +8,7 @@ import { NotesContext } from "@/app/context/NotesContext";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import note from "../../../../public/note-take.png";
 import Image from "next/image";
+import NotSignedIn from "@/app/components/features/Noteform/NotSignedIn";
 
 export default function Home() {
   const notesCtx = useContext(NotesContext);
@@ -43,7 +44,7 @@ export default function Home() {
 
               {notes.length >= 1 ? (
                 <div className="overflow-y-auto h-full pr-2">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div>
                     <List
                       notes={notes}
                       setNotes={setNotes}
@@ -68,21 +69,7 @@ export default function Home() {
             </div>
           </SignedIn>
           <SignedOut>
-            <div className="min-h-[calc(100vh-48px)] flex items-center justify-center items-start mt-20">
-              <div className="p-4 border-4 border-gray-400 rounded-xl flex flex-col w-fit items-center justify-center">
-                <h3 className="text-4xl font-bold text-center mb-8 text-gray-500 mt-10 mb-15">
-                  You are not signed in!
-                </h3>
-                <Image
-                  src={note}
-                  alt="note taking"
-                  className="h-auto w-50"
-                ></Image>
-                <h3 className="text-3xl text-gray-500 mb-10 mt-15">
-                  Sign in or Register to add notes!
-                </h3>
-              </div>
-            </div>
+            <NotSignedIn></NotSignedIn>
           </SignedOut>
         </div>
       </div>
