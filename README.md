@@ -116,8 +116,6 @@ npm run dev
 
 ⸻
 
-### 🧭 Roadmap / Próximos pasos
-
 ## 🧭 Roadmap / Próximos pasos
 
 ### English
