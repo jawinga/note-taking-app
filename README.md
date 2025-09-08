@@ -1,3 +1,4 @@
+
 # 📝 Notes Application / Aplicación de Notas
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
@@ -33,7 +34,7 @@ This project demonstrates **state management with hooks**, **custom hooks**, and
 - 📂 View all created notes in a responsive grid
 - 🖊️ Edit notes after creation
 - ⭐ Mark notes as **favourites**
-- 🔍 Search across notes (title, tags, content)
+- 🔍 Search across notes
 - 🔑 Secure authentication with Clerk
 
 ### Español
@@ -44,7 +45,7 @@ This project demonstrates **state management with hooks**, **custom hooks**, and
 - 📂 Ver todas las notas creadas en una cuadrícula adaptable
 - 🖊️ Editar notas después de crearlas
 - ⭐ Marcar notas como **favoritas**
-- 🔍 Buscar entre las notas (título, etiquetas, contenido)
+- 🔍 Buscar entre las notas 
 - 🔑 Autenticación segura con Clerk
 
 ---
@@ -68,19 +69,79 @@ This project demonstrates **state management with hooks**, **custom hooks**, and
    git clone https://github.com/your-username/notes-app.git
    cd notes-app
 
-2. Install dependencies 
-   ```bash
-   npm install
+	2.	Install dependencies
 
-2. Set up Clerk (create a Clerk project and get your keys). Add them to .env.local: 
-   ```bash
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key
-  CLERK_SECRET_KEY=your_secret
-
-3. Run the development server
-```bash
-   npm run dev
+npm install
 
 
-  
+	3.	Set up Clerk (create a Clerk project and get your keys). Add them to .env.local:
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key
+CLERK_SECRET_KEY=your_secret
+
+
+	4.	Run the development server
+
+npm run dev
+
+
+	5.	Open http://localhost:3000
+
+⸻
+
+Español
+	1.	Clona el repositorio
+
+git clone https://github.com/your-username/notes-app.git
+cd notes-app
+
+
+	2.	Instala las dependencias
+
+npm install
+
+
+	3.	Configura Clerk (crea un proyecto en Clerk y obtén tus claves). Añádelas a .env.local:
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=tu_clave
+CLERK_SECRET_KEY=tu_secreto
+
+
+	4.	Inicia el servidor de desarrollo
+
+npm run dev
+
+
+	5.	Abre http://localhost:3000
+
+⸻
+
+🧭 Roadmap / Próximos pasos
+
+English
+	•	📅 Order notes by creation date
+	•	⭐ Show favourited notes first
+	•	🗂️ Add categories or folders (future idea)
+	•	☁️ Persist notes in a database (SQLite, PostgreSQL, or MongoDB)
+	•	📱 Mobile-optimized UI improvements
+
+Español
+	•	📅 Ordenar notas por fecha de creación
+	•	⭐ Mostrar primero las notas favoritas
+	•	🗂️ Añadir categorías o carpetas (idea futura)
+	•	☁️ Guardar notas en una base de datos (SQLite, PostgreSQL o MongoDB)
+	•	📱 Mejoras de UI para dispositivos móviles
+
+⸻
+
+📄 License / Licencia
+
+This project is licensed under Cristian Harders.
+
+⸻
+
+👤 Author / Autor
+
+Cristian Harders
+Frontend Developer | React / Next.js / TypeScript  
   
