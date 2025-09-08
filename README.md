@@ -116,31 +116,33 @@ npm run dev
 
 ⸻
 
-🧭 Roadmap / Próximos pasos
+### 🧭 Roadmap / Próximos pasos
 
-English
-	•	📅 Order notes by creation date
-	•	⭐ Show favourited notes first
-	•	🗂️ Add categories or folders (future idea)
-	•	☁️ Persist notes in a database (SQLite, PostgreSQL, or MongoDB)
-	•	📱 Mobile-optimized UI improvements
+## 🧭 Roadmap / Próximos pasos
 
-Español
-	•	📅 Ordenar notas por fecha de creación
-	•	⭐ Mostrar primero las notas favoritas
-	•	🗂️ Añadir categorías o carpetas (idea futura)
-	•	☁️ Guardar notas en una base de datos (SQLite, PostgreSQL o MongoDB)
-	•	📱 Mejoras de UI para dispositivos móviles
+### English
+- [ ] ⭐ Show **favourited notes first**  
+- [ ] 🗂️ Add **categories or folders** (future idea)  
+- [ ] ☁️ Persist notes in a **database** (SQLite, PostgreSQL, or MongoDB)  
+- [ ] 📱 Improve **mobile-optimized UI**
+
+---
+
+### Español
+- [ ] ⭐ Mostrar primero las notas **favoritas**  
+- [ ] 🗂️ Añadir **categorías o carpetas** (idea futura)  
+- [ ] ☁️ Guardar notas en una **base de datos** (SQLite, PostgreSQL o MongoDB)  
+- [ ] 📱 Mejoras de **UI para dispositivos móviles**
 
 ⸻
 
-📄 License / Licencia
+### 📄 License / Licencia
 
 This project is licensed under Cristian Harders.
 
 ⸻
 
-👤 Author / Autor
+### 👤 Author / Autor
 
 Cristian Harders
 Frontend Developer | React / Next.js / TypeScript  
