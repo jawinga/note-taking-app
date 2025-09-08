@@ -89,7 +89,7 @@ npm run dev
 
 ⸻
 
-Español
+### Español
 	1.	Clona el repositorio
 
 git clone https://github.com/your-username/notes-app.git
