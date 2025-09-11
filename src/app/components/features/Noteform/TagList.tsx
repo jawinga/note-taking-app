@@ -18,13 +18,13 @@ const TagList = ({
   return (
     <ul className={`${className} ${gapClassName}`} role="list">
       {tags.map((t) => (
-        <span key={t.id}>
+        <li key={t.id}>
           <Tag
             key={t.id}
             item={t}
             onRemove={onRemove ? () => onRemove(t.id) : undefined}
           />
-        </span>
+        </li>
       ))}
     </ul>
   );
