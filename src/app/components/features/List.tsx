@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { X, Calendar, Save, Tag } from "lucide-react";
 import Search from "../ui/buttons/Search";
-import { searchColour } from "@/lib/utils";
 import TagList from "./Noteform/TagList";
 
 interface NoteProps {
@@ -187,17 +186,6 @@ const List = ({
 
                 <div className="flex flex-wrap gap-2 align-middle">
                   <Tag className="w-5 h-5 text-blue-600" />
-                  {/* 
-                  {selectedNote?.tags?.map((t) => (
-                    <span
-                      key={t.id}
-                      className={`px-2.5 py-1 rounded-full text-xs font-medium text-white ${searchColour(
-                        t.colour
-                      )}`}
-                    >
-                      {t.tag}
-                    </span>
-                  ))} */}
 
                   <TagList
                     tags={selectedNote?.tags ?? []}
