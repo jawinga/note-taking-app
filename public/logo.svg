@@ -1,0 +1,81 @@
+<!-- MindMark — Futuristic Abstract Mark (SVG) -->
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MindMark logo">
+  <defs>
+    <!-- Core gradients -->
+    <linearGradient id="mm_core" x1="32" y1="24" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3B82F6"/>
+      <stop offset="0.5" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+
+    <radialGradient id="mm_glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(128 128) rotate(90) scale(128 128)">
+      <stop offset="0" stop-color="#7DD3FC" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#7C3AED" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#0EA5E9" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Soft outer glow -->
+    <filter id="mm_outerGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.25  0 0 0 0 0.45  0 0 0 0 1  0 0 0 0.85 0" result="tint"/>
+      <feMerge>
+        <feMergeNode in="tint"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Inner glow for nodes/lines -->
+    <filter id="mm_innerGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="g"/>
+      <feBlend in="SourceGraphic" in2="g" mode="screen"/>
+    </filter>
+
+    <!-- Clip for bookmark / ribbon silhouette -->
+    <clipPath id="mm_ribbonClip">
+      <!-- Rounded bookmark shape with notch -->
+      <path d="M64 28C64 35.732 70.268 42 78 42H178C185.732 42 192 48.268 192 56V202L140 172L128 164L116 172L64 202V56C64 48.268 64 28 64 28Z" />
+    </clipPath>
+  </defs>
+
+  <!-- Background (transparent); add a subtle radial aura for presence -->
+  <circle cx="128" cy="128" r="120" fill="url(#mm_glow)" />
+
+  <!-- Ribbon container with gradient stroke -->
+  <g filter="url(#mm_outerGlow)">
+    <path d="M64 28C64 35.732 70.268 42 78 42H178C185.732 42 192 48.268 192 56V202L140 172L128 164L116 172L64 202V56C64 48.268 64 28 64 28Z"
+          fill="rgba(2,6,23,0.75)"/>
+    <path d="M64 28C64 35.732 70.268 42 78 42H178C185.732 42 192 48.268 192 56V202L140 172L128 164L116 172L64 202V56C64 48.268 64 28 64 28Z"
+          fill="none" stroke="url(#mm_core)" stroke-width="2.25"/>
+  </g>
+
+  <!-- Neural / graph motif clipped to the ribbon shape -->
+  <g clip-path="url(#mm_ribbonClip)" filter="url(#mm_innerGlow)">
+    <!-- Connection lines -->
+    <path d="M88 82 L120 72 L154 88 L168 112 L156 136 L120 152 L92 132 Z"
+          stroke="url(#mm_core)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+    <path d="M92 132 L132 116 L168 144"
+          stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+    <path d="M120 72 L132 116 L120 152"
+          stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+
+    <!-- Nodes -->
+    <g>
+      <circle cx="88"  cy="82"  r="5" fill="#22D3EE"/>
+      <circle cx="120" cy="72"  r="5" fill="#60A5FA"/>
+      <circle cx="154" cy="88"  r="5" fill="#8B5CF6"/>
+      <circle cx="168" cy="112" r="5" fill="#22D3EE"/>
+      <circle cx="156" cy="136" r="5" fill="#60A5FA"/>
+      <circle cx="120" cy="152" r="5" fill="#8B5CF6"/>
+      <circle cx="92"  cy="132" r="5" fill="#22D3EE"/>
+      <circle cx="132" cy="116" r="4" fill="#F0ABFC"/>
+      <circle cx="168" cy="144" r="4" fill="#67E8F9"/>
+    </g>
+
+    <!-- Subtle inner gradient sheen -->
+    <rect x="64" y="56" width="128" height="120" fill="url(#mm_glow)" opacity="0.35"/>
+  </g>
+
+  <!-- Tiny accent at notch (symbolic “mark”) -->
+  <circle cx="128" cy="164" r="3.5" fill="url(#mm_core)"/>
+</svg>
