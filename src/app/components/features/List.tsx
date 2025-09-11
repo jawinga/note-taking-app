@@ -1,12 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "./Card";
 import { Note } from "@/app/models/Note";
 import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { X, Calendar, Save, Tag } from "lucide-react";
 import Search from "../ui/buttons/Search";
-import TagList from "./Noteform/TagList";
+import TagEditor from "./Noteform/TagEditor";
+import { TagItem } from "./Noteform/Tag";
 
 interface NoteProps {
   notes: Note[];
@@ -26,6 +27,13 @@ const List = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [query, setQuery] = useState("");
+  const [draftTags, setDraftTags] = useState<TagItem[]>([]);
+
+  useEffect(() => {
+    if (selectedNote) {
+      setDraftTags(selectedNote.tags ?? []);
+    }
+  }, [selectedNote]);
 
   const changeInputValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,10 +52,10 @@ const List = ({
   const saveNote = () => {
     if (!selectedNote) return;
 
+    const noteToSave: Note = { ...selectedNote, tags: draftTags };
+
     setNotes((prevNotes) =>
-      prevNotes.map((note) =>
-        note.id === selectedNote.id ? selectedNote : note
-      )
+      prevNotes.map((note) => (note.id === noteToSave.id ? noteToSave : note))
     );
 
     setIsOpen(false);
@@ -187,20 +195,17 @@ const List = ({
                 <div className="flex flex-wrap gap-2 align-middle">
                   <Tag className="w-5 h-5 text-blue-600" />
 
-                  <TagList
-                    tags={selectedNote?.tags ?? []}
-                    onRemove={(id) =>
-                      setSelectedNote((prev) =>
-                        prev
-                          ? {
-                              ...prev,
-                              tags: prev.tags.filter((t) => t.id !== id),
-                            }
-                          : prev
-                      )
+                  <TagEditor
+                    tags={draftTags}
+                    onAdd={(tag, colour) =>
+                      setDraftTags((prev) => [
+                        ...prev,
+                        { id: crypto.randomUUID(), tag, colour },
+                      ])
                     }
-                    className="flex flex-wrap"
-                    gapClassName="gap-2"
+                    onRemove={(id) =>
+                      setDraftTags((prev) => prev.filter((t) => t.id !== id))
+                    }
                   />
                 </div>
 

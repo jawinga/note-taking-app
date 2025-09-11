@@ -1,25 +1,18 @@
 "use client";
 import React, { useRef, useState } from "react";
-import ColourSelect from "./Noteform/ColourSelect";
 import { Note } from "@/app/models/Note";
 import { Plus, Tag } from "lucide-react";
 import { ContentField } from "./Noteform/ContentField";
 import TitleField from "./Noteform/TitleField";
-import TagList from "./Noteform/TagList";
 import { TagItem } from "./Noteform/Tag";
+import TagEditor from "./Noteform/TagEditor";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const nextId = useRef(0);
 
   const [tags, setTags] = useState<TagItem[]>([]);
-  const [content, setContent] = React.useState("");
-  const [title, setTitle] = React.useState("");
-  const [tagInput, setTagInput] = useState("");
-  const [tagColour, setTagColour] = useState("");
-
-  function removeTag(id: string) {
-    setTags((prev) => prev.filter((t) => t.id !== id));
-  }
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
 
   function handleReset() {
     setContent("");
@@ -32,61 +25,28 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     setTags([]);
   }
 
-  function addTags(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    if (!tagColour || !tagInput) {
-      return;
-    } else {
-      setTags((prev) => [
-        ...prev,
-        { colour: tagColour, tag: tagInput, id: crypto.randomUUID() },
-      ]);
-    }
-    setTagColour("");
-    setTagInput("");
-  }
-
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setInputValue((prev) => ({ ...prev, [name]: value }));
-  // };
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-    const content = formData.get("content") as string;
-    // const tagsFromForm: TagItem[] = formData.getAll("tags").map((value) => ({
-    //   id: crypto.randomUUID(),
-    //   tag: String(value),
-    //   colour: "gray",
-    // }));
 
     const trimTitle = title.trim();
     const trimContent = content.trim();
 
-    if (!trimContent || !trimTitle) {
+    if (!trimTitle || !trimContent) {
       alert("Please, fill out the information");
       return;
-    } else {
-      const newNote: Note = {
-        id: ++nextId.current,
-        title: trimTitle,
-        content: trimContent,
-        tags: tags,
-        created: new Date(),
-      };
-
-      onAddNote(newNote);
-      console.log(title);
-      console.log(content);
-      console.log(tags);
-
-      nextId.current += 1;
-      handleReset();
     }
+
+    const newNote: Note = {
+      id: ++nextId.current, // increment once
+      title: trimTitle,
+      content: trimContent,
+      tags, // TagItem[]
+      created: new Date(),
+      favourite: false, // include if your model has it
+    };
+
+    onAddNote(newNote);
+    handleReset();
   }
 
   return (
@@ -109,54 +69,44 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
 
         {/* Form Content */}
         <div className="p-8 space-y-8">
-          {/* Title Field */}
-          <TitleField value={title} onChange={setTitle}></TitleField>
+          {/* Title */}
+          <TitleField value={title} onChange={setTitle} />
 
-          {/*tags*/}
-
+          {/* Tags */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Tag className="w-4 h-4 text-gray-500"></Tag>
-              <label
-                htmlFor="tags"
-                className="block text-sm font-semibold text-gray-800"
-              >
+              <Tag className="w-4 h-4 text-gray-500" />
+              <span className="block text-sm font-semibold text-gray-800">
                 Tags
-              </label>
+              </span>
             </div>
-            <input
-              type="text"
-              id="tags"
-              name="tags"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              placeholder="Add 1 word tags"
-              className="w-50 px-4 py-3 border border-gray-300 rounded-lg sh  adow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-400"
-            ></input>
-            <button
-              className="rounded-full bg-gradient-to-r from-blue-600 to-blue-700 p-3 ml-3"
-              onClick={addTags}
-            >
-              +
-            </button>
-            <ColourSelect
-              value={tagColour}
-              onChange={setTagColour}
-            ></ColourSelect>
-            <TagList
+
+            <TagEditor
               tags={tags}
-              className={tagColour}
-              onRemove={removeTag}
-            ></TagList>
-            <button onClick={resetTags} className="underline text-gray-400">
+              onAdd={(tag, colour) =>
+                setTags((prev) => [
+                  ...prev,
+                  { id: crypto.randomUUID(), tag, colour },
+                ])
+              }
+              onRemove={(id) =>
+                setTags((prev) => prev.filter((t) => t.id !== id))
+              }
+            />
+
+            <button
+              type="button"
+              onClick={resetTags}
+              className="underline text-gray-400"
+            >
               Reset
             </button>
           </div>
 
-          {/* Content Field */}
-          <ContentField value={content} onChange={setContent}></ContentField>
+          {/* Content */}
+          <ContentField value={content} onChange={setContent} />
 
-          {/* Submit Button */}
+          {/* Submit */}
           <div className="space-y-4">
             <button
               type="submit"
@@ -175,7 +125,7 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
           <div className="flex items-center justify-between text-xs text-gray-500">
             <span>All notes are automatically timestamped</span>
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-green-500 rounded-full" />
               Ready to save
             </span>
           </div>
