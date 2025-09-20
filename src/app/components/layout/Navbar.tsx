@@ -9,6 +9,8 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 
+import SvgLogo from "../../../../public/SvgLogo";
+
 const Navbar = () => {
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm h-25 flex items-center justify-center gap-4">
@@ -16,7 +18,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <div className="flex items-center">
-            <div className="flex-shrink-0"></div>
+            <div className="flex-shrink-0">
+              <SvgLogo className="h-12 w-12"></SvgLogo>
+            </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:block ml-10">
