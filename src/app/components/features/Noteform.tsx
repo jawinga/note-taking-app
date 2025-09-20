@@ -6,13 +6,26 @@ import { ContentField } from "./Noteform/ContentField";
 import TitleField from "./Noteform/TitleField";
 import { TagItem } from "./Noteform/Tag";
 import TagEditor from "./Noteform/TagEditor";
+import ExistingNotes from "./Noteform/ExistingNotes";
+import { useTags } from "@/app/context/TagsContext";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const nextId = useRef(0);
 
+  const { tags: allTags, addTag } = useTags();
+
   const [tags, setTags] = useState<TagItem[]>([]);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+
+  const handleSelectedTag = (tagID: string) => {
+    const found = allTags.find((t) => t.id === tagID);
+    if (!found) return;
+
+    setTags((prev) =>
+      prev.some((t) => t.id === found.id) ? prev : [...prev, found]
+    );
+  };
 
   function handleReset() {
     setContent("");
@@ -83,16 +96,28 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
 
             <TagEditor
               tags={tags}
-              onAdd={(tag, colour) =>
-                setTags((prev) => [
-                  ...prev,
-                  { id: crypto.randomUUID(), tag, colour },
-                ])
-              }
+              onAdd={(tag, colour) => {
+                const id = crypto.randomUUID();
+                const item = { id, tag, colour };
+
+                setTags((prev) =>
+                  prev.some((t) => t.tag.toLowerCase() === tag.toLowerCase())
+                    ? prev
+                    : [...prev, item]
+                );
+
+                addTag(item); //
+              }}
               onRemove={(id) =>
                 setTags((prev) => prev.filter((t) => t.id !== id))
               }
             />
+
+            {allTags.length > 0 ? (
+              <ExistingNotes onSelect={handleSelectedTag}></ExistingNotes>
+            ) : (
+              ""
+            )}
 
             <button
               type="button"

@@ -18,7 +18,7 @@ type Action =
 
 interface TagsContextType {
   tags: TagItem[];
-  addTag: (tag: string, colour: string) => void;
+  addTag: (item: TagItem) => void;
   removeTag: (id: string) => void;
   selectedTagDelete: TagItem | null;
   setSelectedTagDelete: (tag: TagItem | null) => void;
@@ -75,14 +75,14 @@ export function TagsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("tags", JSON.stringify(state.tags));
   }, [state.tags]);
 
-  const addTag = (tag: string, colour: string) => {
-    const clean = tag.trim();
-    const cleanColour = colour.trim();
-    if (!/^\S+$/.test(clean)) return;
+  const addTag = (item: TagItem) => {
+    const cleanTag = item.tag.trim();
+    const cleanColour = item.colour.trim();
+    if (!/^\S+$/.test(cleanTag)) return;
     if (!cleanColour) return;
     dispatch({
       type: "ADD",
-      tag: { id: crypto.randomUUID(), tag: clean, colour: cleanColour },
+      tag: { ...item, tag: cleanTag, colour: cleanColour },
     });
   };
 
