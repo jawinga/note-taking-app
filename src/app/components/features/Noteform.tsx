@@ -8,6 +8,8 @@ import { TagItem } from "./Noteform/Tag";
 import TagEditor from "./Noteform/TagEditor";
 import ExistingNotes from "./Noteform/ExistingNotes";
 import { useTags } from "@/app/context/TagsContext";
+import { addExistingTag } from "@/lib/utils";
+import { useCallback } from "react";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const nextId = useRef(0);
@@ -18,14 +20,16 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
-  const handleSelectedTag = (tagID: string) => {
-    const found = allTags.find((t) => t.id === tagID);
-    if (!found) return;
+  const handleSelectedTag = useCallback(
+    (tagID: string) => {
+      const found = allTags.find((t) => t.id === tagID);
 
-    setTags((prev) =>
-      prev.some((t) => t.id === found.id) ? prev : [...prev, found]
-    );
-  };
+      if (!found) return;
+
+      setTags((prev) => addExistingTag(prev, found));
+    },
+    [allTags]
+  );
 
   function handleReset() {
     setContent("");
@@ -113,11 +117,7 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
               }
             />
 
-            {allTags.length > 0 ? (
-              <ExistingNotes onSelect={handleSelectedTag}></ExistingNotes>
-            ) : (
-              ""
-            )}
+            <ExistingNotes onSelect={handleSelectedTag}></ExistingNotes>
 
             <button
               type="button"

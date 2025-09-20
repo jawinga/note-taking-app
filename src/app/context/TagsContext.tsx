@@ -78,7 +78,7 @@ export function TagsProvider({ children }: { children: ReactNode }) {
   const addTag = (item: TagItem) => {
     const cleanTag = item.tag.trim();
     const cleanColour = item.colour.trim();
-    if (!/^\S+$/.test(cleanTag)) return;
+    if (!cleanTag) return;
     if (!cleanColour) return;
     dispatch({
       type: "ADD",

@@ -8,6 +8,10 @@ import { X, Calendar, Save, Tag } from "lucide-react";
 import Search from "../ui/buttons/Search";
 import TagEditor from "./Noteform/TagEditor";
 import { TagItem } from "./Noteform/Tag";
+import { addExistingTag } from "@/lib/utils";
+import ExistingNotes from "./Noteform/ExistingNotes";
+import { useTags } from "@/app/context/TagsContext";
+import { useCallback } from "react";
 
 interface NoteProps {
   notes: Note[];
@@ -48,6 +52,8 @@ const List = ({
       };
     });
   };
+
+  const { tags: allTags } = useTags();
 
   const saveNote = () => {
     if (!selectedNote) return;
@@ -101,6 +107,17 @@ const List = ({
     : notes;
 
   const list = query.trim() !== "" ? filteredNotes : notes;
+
+  const handleSelectedTag = useCallback(
+    (tagID: string) => {
+      const found = allTags.find((t) => t.id === tagID);
+
+      if (!found) return;
+
+      setDraftTags((prev) => addExistingTag(prev, found));
+    },
+    [allTags]
+  );
 
   return (
     <div>
@@ -207,6 +224,8 @@ const List = ({
                       setDraftTags((prev) => prev.filter((t) => t.id !== id))
                     }
                   />
+
+                  <ExistingNotes onSelect={handleSelectedTag}></ExistingNotes>
                 </div>
 
                 {/* Content Textarea */}
