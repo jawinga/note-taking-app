@@ -39,7 +39,7 @@ const Navbar = () => {
                 </Link>
 
                 <a
-                  href="#"
+                  href="../pages/tags"
                   className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Tags

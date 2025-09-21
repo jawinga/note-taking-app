@@ -6,8 +6,7 @@ import { Note } from "../../models/Note";
 import List from "../../components/features/List";
 import { NotesContext } from "@/app/context/NotesContext";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import note from "../../../../public/note-take.png";
-import Image from "next/image";
+
 import NotSignedIn from "@/app/components/features/Noteform/NotSignedIn";
 
 export default function Home() {
