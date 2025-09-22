@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Note } from "../models/Note";
 
 interface NotesContextType {
@@ -16,16 +15,37 @@ interface NotesContextType {
 export const NotesContext = createContext<NotesContextType | null>(null);
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
-  const [notes, setNotes] = React.useState<Note[]>([]);
-  const [selectedNoteDelete, setSelectedNoteDelete] =
-    React.useState<Note | null>(null);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [selectedNoteDelete, setSelectedNoteDelete] = useState<Note | null>(
+    null
+  );
+
+  useEffect(() => {
+    const raw = localStorage.getItem("notes");
+    if (raw) {
+      try {
+        const parsed: Note[] = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          parsed.forEach((n) => {
+            n.created = new Date(n.created);
+          });
+          setNotes(parsed);
+        }
+      } catch {
+        console.warn("Failed to parse notes from localStorage");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   function addNote(note: Note) {
     setNotes((prev) => [...prev, note]);
   }
 
   function deleteNote(note: Note) {
-    console.log("DELETING:", note.id);
     setNotes((prev) => prev.filter((n) => n.id !== note.id));
   }
 
@@ -35,7 +55,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const valueObject = {
+  const valueObject: NotesContextType = {
     notes,
     setNotes,
     addNote,
