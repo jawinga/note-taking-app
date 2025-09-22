@@ -7,6 +7,9 @@ type Props = {
   className: string;
   gapClassName?: string;
   onRemove?: (id: string) => void;
+  tagClassName?: string;
+  countsByTagId?: Record<string, number>;
+  showCounts?: boolean;
 };
 
 const TagList = ({
@@ -14,6 +17,9 @@ const TagList = ({
   className = "flex flex-row flex-wrap",
   gapClassName,
   onRemove,
+  tagClassName,
+  countsByTagId,
+  showCounts,
 }: Props) => {
   return (
     <ul className={`${className} ${gapClassName}`} role="list">
@@ -23,6 +29,8 @@ const TagList = ({
             key={t.id}
             item={t}
             onRemove={onRemove ? () => onRemove(t.id) : undefined}
+            className={tagClassName}
+            count={showCounts ? countsByTagId?.[t.id] ?? 0 : undefined}
           />
         </li>
       ))}
