@@ -6,7 +6,7 @@ interface NotesContextType {
   notes: Note[];
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
   addNote: (note: Note) => void;
-  toggleFavourite: (id: number) => void;
+  toggleFavourite: (id: string) => void;
   selectedNoteDelete: Note | null;
   setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
   deleteNote: (note: Note) => void;
@@ -49,7 +49,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     setNotes((prev) => prev.filter((n) => n.id !== note.id));
   }
 
-  function toggleFavourite(id: number) {
+  function toggleFavourite(id: string) {
     setNotes((prev) =>
       prev.map((n) => (n.id === id ? { ...n, favourite: !n.favourite } : n))
     );

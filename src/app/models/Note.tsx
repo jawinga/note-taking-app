@@ -1,7 +1,7 @@
 import { TagItem } from "../components/features/Noteform/Tag";
 
 export type Note = {
-  id: number;
+  id: string;
   title: string;
   content: string;
   created: Date;

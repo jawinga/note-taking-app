@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Heart } from "lucide-react";
 import { NotesContext } from "@/app/context/NotesContext";
 
-const Fav = ({ id }: { id: number }) => {
+const Fav = ({ id }: { id: string }) => {
   const notesCtx = useContext(NotesContext);
   if (!notesCtx) return null;
   const { notes, toggleFavourite } = notesCtx!;

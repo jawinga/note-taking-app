@@ -15,23 +15,27 @@ const ListFavs = () => {
   const { notes, setSelectedNoteDelete, selectedNoteDelete, deleteNote } =
     notesCtx;
 
+  const favs = notes.filter((f) => f.favourite);
+
   return (
     <>
       <>
-        {notes.length === 0
-          ? "Empty"
-          : notes
-              .filter((n) => n.favourite)
-              .map((n) => (
-                <Card
-                  key={n.id}
-                  note={n}
-                  onOpen={() => {}}
-                  selectedNoteDelete={selectedNoteDelete}
-                  setSelectedNoteDelete={setSelectedNoteDelete}
-                  deleteNote={deleteNote}
-                />
-              ))}
+        {favs.length === 0 ? (
+          <p className="text-5xl text-blue-300">
+            There are no favourite notes!
+          </p>
+        ) : (
+          favs.map((n) => (
+            <Card
+              key={n.id}
+              note={n}
+              onOpen={() => {}}
+              selectedNoteDelete={selectedNoteDelete}
+              setSelectedNoteDelete={setSelectedNoteDelete}
+              deleteNote={deleteNote}
+            />
+          ))
+        )}
       </>
     </>
   );

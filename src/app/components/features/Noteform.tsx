@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Note } from "@/app/models/Note";
 import { Plus, Tag } from "lucide-react";
 import { ContentField } from "./Noteform/ContentField";
@@ -12,8 +12,6 @@ import { addExistingTag } from "@/lib/utils";
 import { useCallback } from "react";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
-  const nextId = useRef(0);
-
   const { tags: allTags, addTag } = useTags();
 
   const [tags, setTags] = useState<TagItem[]>([]);
@@ -54,12 +52,12 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     }
 
     const newNote: Note = {
-      id: ++nextId.current, // increment once
+      id: crypto.randomUUID(),
       title: trimTitle,
       content: trimContent,
       tags, // TagItem[]
       created: new Date(),
-      favourite: false, // include if your model has it
+      favourite: false,
     };
 
     onAddNote(newNote);
