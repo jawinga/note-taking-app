@@ -15,7 +15,7 @@ export default function Home() {
   const {
     notes,
     setNotes,
-    addNote,
+    // addNote,
     deleteNote,
     selectedNoteDelete,
     setSelectedNoteDelete,

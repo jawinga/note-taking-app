@@ -4,10 +4,11 @@ import { SignInButton } from "@clerk/nextjs";
 import { Canvas } from "@react-three/fiber";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 const ShaderBackground = () => {
-  const meshRef = useRef<any>();
-
+  const meshRef =
+    useRef<THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>>(null);
   const vertexShader = `
     varying vec2 vUv;
     void main() {
