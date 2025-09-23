@@ -11,7 +11,6 @@ interface NoteProps {
   onOpen: () => void;
   selectedNoteDelete: Note | null;
   setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
-  deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
 
 const Card = ({ note, onOpen, selectedNoteDelete }: NoteProps) => {

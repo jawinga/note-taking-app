@@ -16,7 +16,6 @@ export default function Home() {
     notes,
     setNotes,
     // addNote,
-    deleteNote,
     selectedNoteDelete,
     setSelectedNoteDelete,
   } = notesCtx!;
@@ -54,7 +53,6 @@ export default function Home() {
                     setNotes={setNotes}
                     selectedNoteDelete={selectedNoteDelete}
                     setSelectedNoteDelete={setSelectedNoteDelete}
-                    deleteNote={deleteNote}
                   />
                 </div>
               ) : (

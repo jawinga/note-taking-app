@@ -18,7 +18,6 @@ interface NoteProps {
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
   selectedNoteDelete: Note | null;
   setSelectedNoteDelete: React.Dispatch<React.SetStateAction<Note | null>>;
-  deleteNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
 
 const List = ({
@@ -26,7 +25,6 @@ const List = ({
   setNotes,
   selectedNoteDelete,
   setSelectedNoteDelete,
-  deleteNote,
 }: NoteProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -140,7 +138,6 @@ const List = ({
                 note={note}
                 selectedNoteDelete={selectedNoteDelete}
                 setSelectedNoteDelete={setSelectedNoteDelete}
-                deleteNote={deleteNote}
                 onOpen={() => {
                   setSelectedNote(note);
                   setIsOpen(true);

@@ -13,8 +13,7 @@ const ListFavs = () => {
 
   if (!notesCtx) return null;
 
-  const { notes, setSelectedNoteDelete, selectedNoteDelete, deleteNote } =
-    notesCtx;
+  const { notes, setSelectedNoteDelete, selectedNoteDelete } = notesCtx;
 
   const favs = notes.filter((f) => f.favourite);
 
@@ -39,7 +38,6 @@ const ListFavs = () => {
               onOpen={() => {}}
               selectedNoteDelete={selectedNoteDelete}
               setSelectedNoteDelete={setSelectedNoteDelete}
-              deleteNote={deleteNote}
             />
           ))
         )}
