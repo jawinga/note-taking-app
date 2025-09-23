@@ -1,8 +1,8 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Noteform from "../../components/features/Noteform";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
-import { Note } from "../../models/Note";
+import type { Note } from "../../models/Note";
 import List from "../../components/features/List";
 import { NotesContext } from "@/app/context/NotesContext";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
@@ -34,27 +34,31 @@ export default function Home() {
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto p-6">
           <SignedIn>
-            <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-              My Notes
-            </h1>
+            <div className="inline-block relative pb-4">
+              <h1 className="text-4xl md:text-5xl font-bold mt-5 mb-5 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent relative z-10">
+                My Notes
+              </h1>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-200 rounded-2xl blur-xl opacity-40 -z-10 scale-110"></div>
+            </div>
 
-            <div className="grid lg:grid-cols-2 gap-7 h-[calc(100vh-200px)]">
-              <Noteform onAddNote={addNoteForm} />
+            {/* Improved responsive grid layout for better mobile and desktop experience */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
+              <div className="order-2 xl:order-1">
+                <Noteform onAddNote={addNoteForm} />
+              </div>
 
               {notes.length >= 1 ? (
-                <div className="overflow-y-auto h-full pr-2">
-                  <div>
-                    <List
-                      notes={notes}
-                      setNotes={setNotes}
-                      selectedNoteDelete={selectedNoteDelete}
-                      setSelectedNoteDelete={setSelectedNoteDelete}
-                      deleteNote={deleteNote}
-                    />
-                  </div>
+                <div className="order-1 xl:order-2 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
+                  <List
+                    notes={notes}
+                    setNotes={setNotes}
+                    selectedNoteDelete={selectedNoteDelete}
+                    setSelectedNoteDelete={setSelectedNoteDelete}
+                    deleteNote={deleteNote}
+                  />
                 </div>
               ) : (
-                <div className="space-y-4 overflow-y-auto h-full pr-2">
+                <div className="order-1 xl:order-2 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
                   <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-48 flex items-center justify-center">
                     <div className="text-center">
                       <p className="text-gray-500 text-lg">No notes yet</p>
