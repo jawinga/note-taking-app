@@ -64,7 +64,7 @@ const Navbar = () => {
                 </button>
               </SignInButton>
               <SignUpButton>
-                <button className="px-6 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md">
+                <button className="border border-blue-400 shadow-lg pl-4 pr-4 pt-2 pb-2 bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg text-white font-medium">
                   Sign up
                 </button>
               </SignUpButton>
