@@ -1,0 +1,46 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model Note {
+
+  id String @id @default(uuid())
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String @db.VarChar(255)
+  content String @db.Text
+  favourite Boolean @default(false)
+  tags NoteTags[]
+
+  @@index([userId])
+
+}
+
+model Tag{
+
+  id String @id @default(uuid())
+  tag String @unique @db.VarChar(50)
+  colour String @db.VarChar(50)
+  notes NoteTags[]
+
+}
+
+model NoteTags {
+  noteId String
+  tagId  String
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  
+  @@id([noteId, tagId])
+  @@index([noteId])
+  @@index([tagId])
+}
+
