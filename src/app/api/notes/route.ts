@@ -9,7 +9,16 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const notes = await prisma.note.findMany({ where: { userId } });
+  const notes = await prisma.note.findMany({
+    where: { userId },
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        },
+      },
+    },
+  });
 
   return NextResponse.json({ notes });
 }
@@ -36,7 +45,13 @@ export async function POST(request: Request) {
       title: body.title,
       content: body.content,
       favourite: body.favourite ?? false,
-      // Remove tags - we'll handle those separately
+    },
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        },
+      },
     },
   });
 
@@ -65,11 +80,18 @@ export async function PUT(request: Request) {
   }
 
   const note = await prisma.note.update({
-    where: { id: body.noteId }, // ✅ Use noteId consistently
+    where: { id: body.noteId },
     data: {
       title: body.title,
       content: body.content,
       favourite: body.favourite,
+    },
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        },
+      },
     },
   });
 
@@ -98,7 +120,7 @@ export async function DELETE(request: Request) {
   }
 
   await prisma.note.delete({
-    where: { id: body.noteId }, // ✅ Simple and correct
+    where: { id: body.noteId },
   });
 
   return NextResponse.json({ message: "Note deleted" });

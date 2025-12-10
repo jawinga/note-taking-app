@@ -10,6 +10,7 @@ import ExistingNotes from "./Noteform/ExistingNotes";
 import { useTags } from "@/app/context/TagsContext";
 import { addExistingTag } from "@/lib/utils";
 import { useCallback } from "react";
+import { NotesService } from "@/lib/services";
 
 const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const { tags: allTags, addTag } = useTags();
@@ -51,17 +52,25 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
       return;
     }
 
-    const newNote: Note = {
-      id: crypto.randomUUID(),
-      title: trimTitle,
-      content: trimContent,
-      tags, // TagItem[]
-      created: new Date(),
-      favourite: false,
-    };
+    try {
+      const createdNote = await NotesService.createNote({
+        title: trimTitle,
+        content: trimContent,
+        tags: tags,
+        favourite: false,
+      });
 
-    onAddNote(newNote);
-    handleReset();
+      if (!createdNote) {
+        console.log("Failed to create new note");
+        return;
+      }
+
+      onAddNote(createdNote);
+      handleReset();
+    } catch (error) {
+      console.log("Error: " + error);
+      alert("Failed to create note. Please try again.");
+    }
   }
 
   return (

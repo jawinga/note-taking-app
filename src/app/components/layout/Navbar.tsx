@@ -30,21 +30,21 @@ const Navbar = () => {
               <div className="flex items-center space-x-1">
                 <SignedIn>
                   <Link
-                    href="../pages/main"
+                    href="/main"
                     className="flex items-center gap-2 text-gray-900 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group"
                   >
                     <FileText className="h-4 w-4 group-hover:scale-110 transition-transform" />
                     All Notes
                   </Link>
                   <Link
-                    href="../pages/favourites"
+                    href="/favourites"
                     className="flex items-center gap-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group"
                   >
                     <Heart className="h-4 w-4 group-hover:scale-110 transition-transform" />
                     Favorites
                   </Link>
                   <Link
-                    href="../pages/tags"
+                    href="/tags"
                     className="flex items-center gap-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group"
                   >
                     <Tag className="h-4 w-4 group-hover:scale-110 transition-transform" />
@@ -103,7 +103,7 @@ const Navbar = () => {
             <div className="px-2 pt-2 pb-3 space-y-1">
               <SignedIn>
                 <Link
-                  href="../pages/main"
+                  href="/main"
                   className="flex items-center gap-3 text-gray-900 hover:text-gray-700 hover:bg-gray-100 px-3 py-3 rounded-lg text-base font-medium transition-all duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -111,7 +111,7 @@ const Navbar = () => {
                   All Notes
                 </Link>
                 <Link
-                  href="../pages/favourites"
+                  href="/favourites"
                   className="flex items-center gap-3 text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-3 py-3 rounded-lg text-base font-medium transition-all duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -119,7 +119,7 @@ const Navbar = () => {
                   Favorites
                 </Link>
                 <Link
-                  href="../pages/tags"
+                  href="/tags"
                   className="flex items-center gap-3 text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-3 py-3 rounded-lg text-base font-medium transition-all duration-200"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

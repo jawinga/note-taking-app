@@ -12,6 +12,7 @@ import { addExistingTag } from "@/lib/utils";
 import ExistingNotes from "./Noteform/ExistingNotes";
 import { useTags } from "@/app/context/TagsContext";
 import { useCallback } from "react";
+import { NotesService } from "@/lib/services";
 
 interface NoteProps {
   notes: Note[];
@@ -43,7 +44,7 @@ const List = ({
     const { name, value } = e.target;
 
     setSelectedNote((prev) => {
-      if (!prev) return prev; // si es null, no hacemos nada
+      if (!prev) return prev;
       return {
         ...prev,
         [name]: value,
@@ -53,14 +54,31 @@ const List = ({
 
   const { tags: allTags } = useTags();
 
-  const saveNote = () => {
+  const saveNote = async () => {
     if (!selectedNote) return;
 
-    const noteToSave: Note = { ...selectedNote, tags: draftTags };
+    try {
+      const updatedNote = await NotesService.updateNote({
+        noteId: selectedNote.id,
+        title: selectedNote.title,
+        content: selectedNote.content,
+        tags: draftTags,
+        favourite: selectedNote.favourite,
+      });
 
-    setNotes((prevNotes) =>
-      prevNotes.map((note) => (note.id === noteToSave.id ? noteToSave : note))
-    );
+      if (!updatedNote) {
+        alert("Failed to update note");
+        return;
+      }
+
+      const noteToSave: Note = { ...selectedNote, tags: draftTags };
+
+      setNotes((prevNotes) =>
+        prevNotes.map((note) => (note.id === noteToSave.id ? noteToSave : note))
+      );
+    } catch (error) {
+      console.log(error);
+    }
 
     setIsOpen(false);
   };

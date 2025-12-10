@@ -1,6 +1,7 @@
 "use client";
 import React, { createContext, useEffect, useState } from "react";
 import { Note } from "../models/Note";
+import { NotesService } from "@/lib/services";
 
 interface NotesContextType {
   notes: Note[];
@@ -21,20 +22,28 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    const raw = localStorage.getItem("notes");
-    if (raw) {
-      try {
-        const parsed: Note[] = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          parsed.forEach((n) => {
-            n.created = new Date(n.created);
-          });
-          setNotes(parsed);
+    // const raw = localStorage.getItem("notes");
+
+    const fetchNotes = async () => {
+      const data = await NotesService.getAllNotes();
+
+      if (data) {
+        try {
+          // const parsed: Note[] = JSON.parse(raw);
+          if (Array.isArray(data)) {
+            data.forEach((n) => {
+              n.created = new Date(n.created);
+            });
+            setNotes(data);
+          }
+        } catch {
+          // console.warn("Failed to parse notes from localStorage");
+          console.warn("Failed to retrieve notes from DB");
         }
-      } catch {
-        console.warn("Failed to parse notes from localStorage");
       }
-    }
+    };
+
+    fetchNotes();
   }, []);
 
   useEffect(() => {
@@ -45,14 +54,47 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     setNotes((prev) => [...prev, note]);
   }
 
-  function deleteNote(note: Note) {
-    setNotes((prev) => prev.filter((n) => n.id !== note.id));
+  async function deleteNote(note: Note) {
+    const findNote = notes.find((n) => n.id === note.id);
+
+    if (!findNote) {
+      console.log("We could not find the note");
+      return;
+    }
+
+    try {
+      const deleteNote = await NotesService.deleteNote(note.id);
+      if (!deleteNote) {
+        console.log("Could not delete note");
+        return;
+      }
+
+      setNotes((prev) => prev.filter((n) => n.id !== note.id));
+    } catch (error) {
+      console.log("Error " + error);
+    }
   }
 
-  function toggleFavourite(id: string) {
-    setNotes((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, favourite: !n.favourite } : n))
-    );
+  async function toggleFavourite(id: string) {
+    const note = notes.find((n) => n.id === id);
+    if (!note) return;
+
+    try {
+      const updatedNote = await NotesService.updateNote({
+        noteId: note.id,
+        favourite: !note.favourite,
+      });
+
+      if (!updatedNote) {
+        console.error("Failed to update note");
+        return;
+      }
+      setNotes((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, favourite: !n.favourite } : n))
+      );
+    } catch (error) {
+      console.log("Error: " + error);
+    }
   }
 
   const valueObject: NotesContextType = {
