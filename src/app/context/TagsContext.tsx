@@ -76,6 +76,7 @@ export function TagsProvider({ children }: { children: ReactNode }) {
   //   localStorage.setItem("tags", JSON.stringify(state.tags));
   // }, [state.tags]);
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   const addTag = (item: TagItem) => {
     const cleanTag = item.tag.trim();
     const cleanColour = item.colour.trim();

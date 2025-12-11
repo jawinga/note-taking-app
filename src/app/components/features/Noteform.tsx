@@ -125,7 +125,7 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
                     : [...prev, item]
                 );
 
-                // addTag(item); //
+                addTag(item); //
               }}
               onRemove={(id) =>
                 setTags((prev) => prev.filter((t) => t.id !== id))
