@@ -278,7 +278,7 @@ This project is open source and available under the MIT License.
 
 **Cristian Harders**  
 Full-Stack Developer | React / Next.js / TypeScript  
-[GitHub](https://github.com/your-username) | [LinkedIn](https://linkedin.com/in/your-profile)
+[GitHub](https://github.com/jawinga) | [LinkedIn](https://linkedin.com/in/cristianharders)
 
 ---
 
