@@ -8,6 +8,7 @@ import React, {
   useContext,
 } from "react";
 import { TagItem } from "../components/features/Noteform/Tag";
+import { NotesService } from "@/lib/services";
 
 type State = { tags: TagItem[]; selectedTagDelete: TagItem | null };
 type Action =
@@ -59,21 +60,21 @@ export function TagsProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const raw = localStorage.getItem("tags");
-    if (raw) {
+    const fetchTags = async () => {
       try {
-        const parsed = JSON.parse(raw) as TagItem[];
-        if (Array.isArray(parsed)) {
-          dispatch({ type: "HYDRATE", tags: parsed });
-        }
-      } catch {}
-    }
+        const tags = await NotesService.getAllTags();
+        dispatch({ type: "HYDRATE", tags });
+      } catch (error) {
+        console.error("Failed to load tags:", error);
+      }
+    };
+    fetchTags();
   }, []);
 
   // persist on changes
-  useEffect(() => {
-    localStorage.setItem("tags", JSON.stringify(state.tags));
-  }, [state.tags]);
+  // useEffect(() => {
+  //   localStorage.setItem("tags", JSON.stringify(state.tags));
+  // }, [state.tags]);
 
   const addTag = (item: TagItem) => {
     const cleanTag = item.tag.trim();

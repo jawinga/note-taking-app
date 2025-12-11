@@ -53,6 +53,14 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
     }
 
     try {
+      console.log("Tags before sending:", tags);
+      console.log("Request body:", {
+        title: trimTitle,
+        content: trimContent,
+        tags,
+        favourite: false,
+      });
+
       const createdNote = await NotesService.createNote({
         title: trimTitle,
         content: trimContent,
@@ -117,7 +125,7 @@ const Noteform = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
                     : [...prev, item]
                 );
 
-                addTag(item); //
+                // addTag(item); //
               }}
               onRemove={(id) =>
                 setTags((prev) => prev.filter((t) => t.id !== id))

@@ -5,7 +5,7 @@ import {
   UpdateNoteResponse,
   CreateNoteResponse,
 } from "@/app/models/Note";
-
+import { TagItem } from "@/app/components/features/Noteform/Tag";
 const API_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export class NotesService {
@@ -42,6 +42,26 @@ export class NotesService {
       return data.notes.map(this.adaptNotes) || [];
     } catch (error) {
       console.error("Error fetching notes:", error);
+      return [];
+    }
+  }
+
+  static async getAllTags(): Promise<TagItem[]> {
+    try {
+      const response = await fetch(`/api/tags`, {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch tags");
+      }
+
+      const data: { tags: TagItem[] } = await response.json();
+
+      return data.tags || [];
+    } catch (error) {
+      console.error("Error fetching tags:", error);
       return [];
     }
   }

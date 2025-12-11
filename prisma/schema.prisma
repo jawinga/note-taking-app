@@ -30,14 +30,17 @@ model Tag{
   tag String @unique @db.VarChar(50)
   colour String @db.VarChar(50)
   notes NoteTags[]
+  userId String 
 
+  @@unique([tag, userId])
+  @@index([userId])
 }
 
 model NoteTags {
   noteId String
   tagId  String
   note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
-  tag    Tag    @relation(fields: [tagId], references: [id])
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
   
   @@id([noteId, tagId])
   @@index([noteId])
