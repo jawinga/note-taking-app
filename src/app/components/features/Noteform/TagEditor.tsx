@@ -42,7 +42,7 @@ const TagEditor = ({ tags, onAdd, onRemove, className }: Props) => {
         />
         <ColourSelect value={tagColour} onChange={setTagColour} />
         <button
-          className="rounded-full bg-gradient-to-r from-blue-600 to-blue-700 p-3 text-white"
+          className="w-auto rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 p-3 text-white"
           onClick={handleAdd}
           aria-label="Add tag"
         >

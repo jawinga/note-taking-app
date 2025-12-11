@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import { NotesProvider } from "./context/NotesContext";
 import { TagsProvider } from "./context/TagsContext";
+import MenuBar from "./components/layout/MenuBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
         >
           <TagsProvider>
             <Navbar></Navbar>
+            <MenuBar></MenuBar>
             <NotesProvider>{children}</NotesProvider>
           </TagsProvider>
         </body>
