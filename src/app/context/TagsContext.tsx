@@ -20,7 +20,7 @@ type Action =
 interface TagsContextType {
   tags: TagItem[];
   addTag: (item: TagItem) => void;
-  removeTag: (id: string) => void;
+  removeTag: (id: string) => Promise<void>;
   selectedTagDelete: TagItem | null;
   setSelectedTagDelete: (tag: TagItem | null) => void;
 }
@@ -87,7 +87,16 @@ export function TagsProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeTag = (id: string) => dispatch({ type: "REMOVE", id });
+  const removeTag = async (id: string) => {
+    const success = await NotesService.deleteTag(id);
+
+    if (success) {
+      dispatch({ type: "REMOVE", id });
+    } else {
+      alert("Failed to delete tag");
+    }
+  };
+
   const setSelectedTagDelete = (tag: TagItem | null) =>
     dispatch({ type: "SELECT_DELETE", tag });
 

@@ -133,4 +133,25 @@ export class NotesService {
       return false;
     }
   }
+
+  static async deleteTag(tagId: string): Promise<boolean> {
+    try {
+      const response = await fetch(`/api/tags`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tagId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete tag");
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error deleting tag:", error);
+      return false;
+    }
+  }
 }
