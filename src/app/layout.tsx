@@ -35,7 +35,7 @@ export default function RootLayout({
         >
           <TagsProvider>
             <Navbar></Navbar>
-            <MenuBar></MenuBar>
+            {/* <MenuBar></MenuBar> */}
             <NotesProvider>{children}</NotesProvider>
           </TagsProvider>
         </body>

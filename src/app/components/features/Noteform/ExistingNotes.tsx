@@ -24,31 +24,25 @@ const ExistingNotes = ({ onSelect }: { onSelect: (tagId: string) => void }) => {
         setValue("");
       }}
     >
-      <SelectTrigger
-        className="w-56 px-4 py-3 border h-50 border-gray-300 rounded-lg shadow-sm text-gray-900
-               placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500
-               focus:border-blue-500 transition-all duration-200 hover:border-gray-400"
-      >
+      <SelectTrigger className="w-full px-4 py-2 border-0 bg-white rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
         <SelectValue
-          placeholder={hasTags ? "Select a tag" : "No tags created"}
+          placeholder={
+            hasTags ? "Or select existing tag" : "No tags created yet"
+          }
         />
       </SelectTrigger>
-      <SelectContent
-        className="w-56 px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-900
-               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               transition-all duration-200 hover:border-gray-400"
-      >
+      <SelectContent className="bg-white border border-gray-200 rounded-lg shadow-lg">
         {tags.map((t) => (
           <SelectItem
             key={t.id}
             value={t.id}
-            className="flex items-center gap-2 px-2 py-1 hover:bg-blue-50 rounded-md cursor-pointer"
+            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer transition-colors"
           >
             <span
-              className="h-3 w-3 rounded-full"
+              className="h-3 w-3 rounded-full flex-shrink-0"
               style={{ backgroundColor: t.colour }}
             />
-            {t.tag}
+            <span className="text-gray-700">{t.tag}</span>
           </SelectItem>
         ))}
       </SelectContent>
