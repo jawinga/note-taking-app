@@ -1,6 +1,6 @@
 "use client";
 
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NotesProvider } from "./context/NotesContext";
@@ -37,12 +37,12 @@ export default function RootLayout({
           <TagsProvider>
             <NotesProvider>
               {hideMenuBar ? (
-                // Pages without MenuBar (auth pages)
                 <>{children}</>
               ) : (
-                // Pages with MenuBar
                 <div className="flex h-screen">
-                  <MenuBar />
+                  <SignedIn>
+                    <MenuBar />
+                  </SignedIn>
                   <main className="flex-1 overflow-y-auto">{children}</main>
                 </div>
               )}
