@@ -14,7 +14,7 @@ const Delete = ({ note }: DeleteProps) => {
 
   return (
     <>
-      <button>
+      <div>
         <Trash2
           className="text-blue-900 w-5 h-5 hover:text-white transition"
           onClick={(e) => {
@@ -22,7 +22,7 @@ const Delete = ({ note }: DeleteProps) => {
             setOpenModal(true);
           }}
         />
-      </button>
+      </div>
 
       {openModal && (
         <Dialog

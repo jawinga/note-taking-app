@@ -31,7 +31,7 @@ const Search = ({
   }, [debouncedQuery, onChange]);
 
   return (
-    <div className={`relative ${className} mb-5 w-75`}>
+    <div className={`relative ${className} mb-5 w-full`}>
       <ScanSearch
         className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"
         aria-hidden="true"

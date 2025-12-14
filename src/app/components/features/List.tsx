@@ -136,7 +136,7 @@ const List = ({
   );
 
   return (
-    <div>
+    <div className="mt-10">
       <Search
         value={query}
         onChange={setQuery}
@@ -146,22 +146,18 @@ const List = ({
       {list.length === 0 ? (
         <p className="text-sm text-gray-500">No notes found.</p>
       ) : (
-        <div className="flex flex-wrap gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {list.map((note) => (
-            <div
+            <Card
               key={note.id}
-              className="basis-full sm:basis-[calc(50%-0.75rem)]"
-            >
-              <Card
-                note={note}
-                selectedNoteDelete={selectedNoteDelete}
-                setSelectedNoteDelete={setSelectedNoteDelete}
-                onOpen={() => {
-                  setSelectedNote(note);
-                  setIsOpen(true);
-                }}
-              />
-            </div>
+              note={note}
+              selectedNoteDelete={selectedNoteDelete}
+              setSelectedNoteDelete={setSelectedNoteDelete}
+              onOpen={() => {
+                setSelectedNote(note);
+                setIsOpen(true);
+              }}
+            />
           ))}
         </div>
       )}
