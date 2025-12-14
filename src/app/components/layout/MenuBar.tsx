@@ -56,7 +56,7 @@ const MenuBar = () => {
         {/* Navigation */}
         <div className="space-y-2 mb-12">
           <Link
-            href="/main"
+            href="/newUI"
             className="flex items-center gap-3 px-4 py-3 hover:bg-white/10 rounded-xl text-sm font-medium transition-all duration-200 group"
           >
             <FileText className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
