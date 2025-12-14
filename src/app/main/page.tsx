@@ -56,7 +56,7 @@ export default function Home() {
                   />
                 </div>
               ) : (
-                <div className="order-1 xl:order-2 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
+                <div className="order-1 xl:order-2 overflow-y-auto max-h-[calc(100vh-200px)] pr-2 pt-10">
                   <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-48 flex items-center justify-center">
                     <div className="text-center">
                       <p className="text-gray-500 text-lg">No notes yet</p>

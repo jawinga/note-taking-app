@@ -16,24 +16,21 @@ type MenuBarTagProps = {
 
 const MenuBarTag = ({ colour, tag, number }: MenuBarTagProps) => {
   function tagLength(tag: string): string {
-    if (tag.length > 15) {
-      const sliced = tag.slice(0, 15) + "...";
-      return sliced;
-    } else {
-      return tag;
-    }
+    return tag.length > 15 ? tag.slice(0, 15) + "..." : tag;
   }
 
   return (
-    <div className="flex gap-5 ">
-      <div className="flex items-center w-35 gap-3">
+    <div className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-white/10 rounded-lg transition-all duration-200 cursor-pointer group">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
         <div
-          className="rounded-full w-4 h-4 border border-0.5 border-gray-600 "
+          className="rounded-full w-3 h-3 flex-shrink-0 ring-2 ring-white/20 group-hover:ring-white/40 transition-all duration-200"
           style={{ backgroundColor: colour }}
-        ></div>
-        <p>{tagLength(tag)}</p>
+        />
+        <p className="text-sm truncate text-white/90 group-hover:text-white transition-colors duration-200">
+          {tagLength(tag)}
+        </p>
       </div>
-      <div className="rounded-full min-w-6 h-6 text-gray-900 bg-gray-200 flex items-center justify-center text-xs font-medium px-2">
+      <div className="rounded-full min-w-6 h-6 bg-white/20 group-hover:bg-white/30 flex items-center justify-center text-xs font-semibold text-white px-2 transition-all duration-200">
         {number}
       </div>
     </div>
@@ -42,89 +39,101 @@ const MenuBarTag = ({ colour, tag, number }: MenuBarTagProps) => {
 
 const MenuBar = () => {
   const { user } = useUser();
-
   const countsTag = useTagCounts();
-
   const { tags } = useTags();
 
   return (
-    <nav className=" bg-gradient-to-r from-blue-600 to-blue-700 text-white flex flex-col justify-between flex-shrink-0 border-2 border-r border-slate-200 dark:border-slate-800 w-64 flex-shrink-0 h-full overflow-y-auto z-20 pl-8 pt-10">
-      <div className="flex flex-col">
-        {/* logo   */}
-        <div className="flex items-center gap-5 mb-8">
-          <SvgLogo className="h-10 w-10 ml-2"></SvgLogo>
-          <p className="font-bold">NoteKeep</p>
+    <nav className="bg-gradient-to-b from-blue-600 via-blue-700 to-indigo-700 text-white flex flex-col w-64 flex-shrink-0 h-full overflow-y-auto shadow-2xl">
+      <div className="flex flex-col flex-1 px-6 py-8">
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-12 pb-6 border-b border-white/10">
+          <div className="p-2 bg-white/10 rounded-xl backdrop-blur-sm">
+            <SvgLogo className="h-8 w-8 text-white" />
+          </div>
+          <p className="text-xl font-bold tracking-tight">NoteKeep</p>
         </div>
 
-        {/* logo   */}
-
         {/* Navigation */}
-
-        {/* Navigation */}
-        <nav className="flex-1 space-y-6">
+        <div className="space-y-2 mb-12">
           <Link
             href="/main"
-            className="flex items-center gap-2 mr-2  hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group"
+            className="flex items-center gap-3 px-4 py-3 hover:bg-white/10 rounded-xl text-sm font-medium transition-all duration-200 group"
           >
-            <FileText className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span>All Notes</span>
+            <FileText className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+            <span className="text-white/90 group-hover:text-white transition-colors duration-200">
+              All Notes
+            </span>
           </Link>
           <Link
             href="/favourites"
-            className="flex items-center gap-2 mr-2  hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group"
+            className="flex items-center gap-3 px-4 py-3 hover:bg-white/10 rounded-xl text-sm font-medium transition-all duration-200 group"
           >
-            <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span>Favorites</span>
+            <Heart className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+            <span className="text-white/90 group-hover:text-white transition-colors duration-200">
+              Favorites
+            </span>
           </Link>
           <Link
-            href="/favourites"
-            className="flex items-center gap-2 mr-2  hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group"
+            href="/tags"
+            className="flex items-center gap-3 px-4 py-3 hover:bg-white/10 rounded-xl text-sm font-medium transition-all duration-200 group"
           >
-            <Tag className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span>Tags</span>
+            <Tag className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+            <span className="text-white/90 group-hover:text-white transition-colors duration-200">
+              Tags
+            </span>
           </Link>
-        </nav>
-        {/* Navigation */}
-      </div>
+        </div>
 
-      <div>
-        {/* Tags */}
-
+        {/* Tags Section */}
         <SignedIn>
-          <p className="my-4">TAGS</p>
-          <div className="flex flex-col gap-2.5">
-            {tags.map((t) => {
-              return (
-                <MenuBarTag
-                  key={t.id}
-                  colour={t.colour}
-                  tag={t.tag}
-                  number={countsTag[t.id] || 0}
-                ></MenuBarTag>
-              );
-            })}
+          <div className="flex-1">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white/60 mb-4 px-3">
+              Tags
+            </h3>
+            <div className="space-y-1 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+              {tags.length > 0 ? (
+                tags.map((t) => (
+                  <MenuBarTag
+                    key={t.id}
+                    colour={t.colour}
+                    tag={t.tag}
+                    number={countsTag[t.id] || 0}
+                  />
+                ))
+              ) : (
+                <p className="text-sm text-white/50 px-3 py-2">No tags yet</p>
+              )}
+            </div>
           </div>
         </SignedIn>
+      </div>
 
-        {/* Tags */}
-
-        {/* User */}
-
-        <SignedIn>
-          <div className="my-8 flex justify-start items-center gap-2">
-            <UserButton></UserButton>
+      {/* User Section */}
+      <SignedIn>
+        <div className="px-6 py-6 border-t border-white/10 bg-black/10 backdrop-blur-sm">
+          <div className="flex items-center gap-3">
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10",
+                },
+              }}
+            />
             {user ? (
-              <p className="font-bold">
-                {user?.firstName || user?.username || "User"}
-              </p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-white truncate">
+                  {user?.firstName || user?.username || "User"}
+                </p>
+                <p className="text-xs text-white/60 truncate">
+                  {user?.primaryEmailAddress?.emailAddress}
+                </p>
+              </div>
             ) : (
-              <p className="text-sm text-gray-400">Loading...</p>
+              <p className="text-sm text-white/50">Loading...</p>
             )}
           </div>
-        </SignedIn>
-
-        {/* User */}
-      </div>
+        </div>
+      </SignedIn>
     </nav>
   );
 };

@@ -4,7 +4,7 @@ import { Note } from "@/app/models/Note";
 import { Calendar, FileText } from "lucide-react";
 import Delete from "../ui/buttons/Delete";
 import Fav from "../ui/buttons/Fav";
-import { searchColour } from "@/lib/utils";
+// import { searchColour } from "@/lib/utils";
 
 interface NoteProps {
   note: Note;

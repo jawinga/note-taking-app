@@ -5,6 +5,7 @@ import NewForm from "./ui/NewForm";
 import { SignedIn } from "@clerk/nextjs";
 import { NotesContext } from "../context/NotesContext";
 import List from "../components/features/List";
+import { Note } from "../models/Note";
 
 const Menu = () => {
   const notesCtx = useContext(NotesContext);
@@ -22,13 +23,17 @@ const Menu = () => {
     });
   }, [notes]);
 
+  function handleAddNote(note: Note) {
+    setNotes((prev) => [...prev, note]);
+  }
+
   return (
     <div className="flex h-screen">
       <MenuBar />
 
       <SignedIn>
         <div className="flex-1 p-8">
-          <NewForm />
+          <NewForm onAddNote={handleAddNote} />
           <div className="w-full">
             {/* <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8"> */}
             {notes.length >= 1 ? (
@@ -41,7 +46,7 @@ const Menu = () => {
                 />
               </div>
             ) : (
-              <div className="order-1 xl:order-2 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
+              <div className="order-1 xl:order-2 overflow-y-auto max-h-[calc(100vh-200px)] pr-2 pt-10">
                 <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-48 flex items-center justify-center">
                   <div className="text-center">
                     <p className="text-gray-500 text-lg">No notes yet</p>

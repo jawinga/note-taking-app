@@ -6,8 +6,10 @@ import { useTags } from "@/app/context/TagsContext";
 import { TagItem } from "@/app/components/features/Noteform/Tag";
 import { addExistingTag } from "@/lib/utils";
 import ExistingNotes from "@/app/components/features/Noteform/ExistingNotes";
+import { NotesService } from "@/lib/services";
+import { Note } from "@/app/models/Note";
 
-const NewForm = () => {
+const NewForm = ({ onAddNote }: { onAddNote: (n: Note) => void }) => {
   const { tags: allTags, addTag } = useTags();
 
   //local
@@ -26,8 +28,46 @@ const NewForm = () => {
     [allTags]
   );
 
-  function submit(e: React.FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const trimTitle = title.trim();
+    const trimContent = content.trim();
+
+    if (!trimTitle || !trimContent) {
+      alert("Please, fill out the information");
+      return;
+    }
+
+    try {
+      console.log("Tags before sending:", tags);
+      console.log("Request body:", {
+        title: trimTitle,
+        content: trimContent,
+        tags,
+        favourite: false,
+      });
+
+      const createdNote = await NotesService.createNote({
+        title: trimTitle,
+        content: trimContent,
+        tags: tags,
+        favourite: false,
+      });
+
+      if (!createdNote) {
+        console.log("Failed to create new note");
+        return;
+      }
+
+      onAddNote(createdNote);
+      setTitle("");
+      setContent("");
+      setTags([]);
+    } catch (error) {
+      console.log("Error: " + error);
+      alert("Failed to create note. Please try again.");
+    }
   }
 
   function reset(e: React.MouseEvent<HTMLButtonElement>) {
@@ -68,7 +108,7 @@ const NewForm = () => {
         />
       </div>
 
-      <div className="w-full p-8 bg-gradient-to-r from-gray-300 to-gray-400 rounded-b-xl mt-3 flex justify-between">
+      <div className="w-full p-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-b-xl mt-3 flex justify-between transition-all duration-300">
         <div className="flex gap-10 items-start">
           <TagEditor
             tags={tags}
@@ -87,15 +127,16 @@ const NewForm = () => {
             onRemove={(id) =>
               setTags((prev) => prev.filter((t) => t.id !== id))
             }
-          ></TagEditor>
-          <ExistingNotes onSelect={handleSelectedTag}></ExistingNotes>
+          />
+          <ExistingNotes onSelect={handleSelectedTag} />
         </div>
 
-        <div className="flex flex-col items-center gap-5 ">
-          <NewCta></NewCta>
+        <div className="flex flex-col items-center gap-5">
+          <NewCta />
           <button
+            type="button"
             onClick={reset}
-            className="text-gray-500 hover:underline hover:cursor-pointer"
+            className="text-white/90 hover:text-white transition-colors duration-200"
           >
             Reset
           </button>

@@ -15,7 +15,7 @@ const Fav = ({ id }: { id: string }) => {
   }
 
   return (
-    <button onClick={changeFav}>
+    <button onClick={changeFav} className="cursor-pointer">
       <Heart
         className={note?.favourite ? "text-blue-700" : "text-blue-700"}
         fill={note?.favourite ? "#1D4ED8" : "none"}

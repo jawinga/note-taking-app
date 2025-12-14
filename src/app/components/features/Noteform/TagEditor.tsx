@@ -42,7 +42,7 @@ const TagEditor = ({ tags, onAdd, onRemove, className }: Props) => {
         <ColourSelect value={tagColour} onChange={setTagColour} />
         <button
           type="button"
-          className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="p-2 bg-white text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={handleAdd}
           aria-label="Add tag"
         >

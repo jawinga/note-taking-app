@@ -220,7 +220,7 @@ const List = ({
                   </span>
                 </div>
 
-                <div className="flex flex-wrap gap-2 align-middle">
+                <div className="flex flex-wrap gap-2 items-center w-full">
                   <Tag className="w-5 h-5 text-blue-600" />
 
                   <TagEditor
